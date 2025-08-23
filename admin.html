@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Brian Averna Cottage Cooking</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="admin-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <img src="80EEC885-72BE-48B4-8172-AD040AAE62E9.png" alt="Brian Averna Cottage Cooking" class="logo-img">
+                    <span class="logo-text">Admin Panel</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Back to Website</a></li>
+                    <li><a href="#dashboard">Dashboard</a></li>
+                    <li><a href="#classes">Manage Classes</a></li>
+                    <li><a href="#bookings">Bookings</a></li>
+                    <li><a href="#members">Members</a></li>
+                    <li><a href="#messages">Messages</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main style="padding-top: 150px;">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="admin-section">
+            <div class="container">
+                <h2>Dashboard</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Bookings</h3>
+                        <div class="stat-number">24</div>
+                        <p>This month</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Upcoming Classes</h3>
+                        <div class="stat-number">8</div>
+                        <p>Next 30 days</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Available Seats</h3>
+                        <div class="stat-number">32</div>
+                        <p>This month</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Revenue</h3>
+                        <div class="stat-number" id="monthlyRevenue">$2,040</div>
+                        <p>This month</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Members</h3>
+                        <div class="stat-number" id="totalMembers">0</div>
+                        <p>All time</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Class Management Section -->
+        <section id="classes" class="admin-section">
+            <div class="container">
+                <h2>Manage Classes</h2>
+                
+                <!-- Add New Class Form -->
+                <div class="admin-card">
+                    <h3>Add New Class Session</h3>
+                    <form id="addClassForm" class="admin-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="classType">Class Type:</label>
+                                <select id="classType" required>
+                                    <option value="">Select class type...</option>
+                                    <option value="classic-italian-1">Classic Italian American I</option>
+                                    <option value="classic-italian-2">Classic Italian American II</option>
+                                    <option value="classic-italian-3">Classic Italian American III</option>
+                                    <option value="pasta-sauces">Pasta Sauces</option>
+                                    <option value="fresh-pasta">Fresh Scratch Pasta</option>
+                                    <option value="thanksgiving">Thanksgiving Sides</option>
+                                    <option value="holiday-appetizers">Holiday Appetizers</option>
+                                    <option value="holiday-desserts">Holiday Chocolate Desserts</option>
+                                    <option value="easy-breads">Easy Breads</option>
+                                    <option value="winter-soups">International Winter Soups</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="classDate">Date:</label>
+                                <input type="date" id="classDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="classTime">Time:</label>
+                                <input type="time" id="classTime" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="maxSeats">Maximum Seats:</label>
+                                <input type="number" id="maxSeats" min="1" max="12" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="price">Price:</label>
+                                <input type="number" id="price" min="0" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="notes">Special Notes (optional):</label>
+                            <textarea id="notes" rows="3" placeholder="Any special instructions or notes for this class..."></textarea>
+                        </div>
+                        <button type="submit" class="admin-button">Add Class Session</button>
+                    </form>
+                </div>
+
+                <!-- Current Month Schedule -->
+                <div class="admin-card">
+                    <h3>Current Month Schedule</h3>
+                    <div class="schedule-controls">
+                        <button class="admin-button secondary" onclick="changeMonth(-1)">← Previous Month</button>
+                        <span id="currentMonth">February 2024</span>
+                        <button class="admin-button secondary" onclick="changeMonth(1)">Next Month →</button>
+                    </div>
+                    <div class="schedule-grid" id="scheduleGrid">
+                        <!-- Schedule will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bookings Management Section -->
+        <section id="bookings" class="admin-section">
+            <div class="container">
+                <h2>Recent Bookings</h2>
+                <div class="admin-card">
+                    <div class="bookings-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Customer</th>
+                                    <th>Class</th>
+                                    <th>Seats</th>
+                                    <th>Contact</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bookingsTableBody">
+                                <!-- Sample bookings - would come from database -->
+                                <tr>
+                                    <td>Feb 15, 2024</td>
+                                    <td>Sarah Johnson</td>
+                                    <td>Artisan Bread Making</td>
+                                    <td>2</td>
+                                    <td>sarah@email.com<br>(555) 123-4567</td>
+                                    <td><span class="status confirmed">Confirmed</span></td>
+                                    <td>
+                                        <button class="action-btn">Edit</button>
+                                        <button class="action-btn cancel">Cancel</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Feb 18, 2024</td>
+                                    <td>Mike Chen</td>
+                                    <td>Farm-to-Table Cooking</td>
+                                    <td>1</td>
+                                    <td>mike@email.com<br>(555) 987-6543</td>
+                                    <td><span class="status pending">Pending</span></td>
+                                    <td>
+                                        <button class="action-btn">Confirm</button>
+                                        <button class="action-btn cancel">Cancel</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Feb 22, 2024</td>
+                                    <td>Emma Davis</td>
+                                    <td>Classic Desserts</td>
+                                    <td>3</td>
+                                    <td>emma@email.com<br>(555) 456-7890</td>
+                                    <td><span class="status confirmed">Confirmed</span></td>
+                                    <td>
+                                        <button class="action-btn">Edit</button>
+                                        <button class="action-btn cancel">Cancel</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Members Management Section -->
+        <section id="members" class="admin-section">
+            <div class="container">
+                <h2>Members Management</h2>
+                
+                <!-- Member Statistics -->
+                <div class="admin-card">
+                    <h3>Member Overview</h3>
+                    <div class="member-stats-grid">
+                        <div class="member-stat">
+                            <span class="stat-icon">👥</span>
+                            <div class="stat-info">
+                                <h4 id="totalMembersCount">0</h4>
+                                <p>Total Members</p>
+                            </div>
+                        </div>
+                        <div class="member-stat">
+                            <span class="stat-icon">🆕</span>
+                            <div class="stat-info">
+                                <h4 id="newMembersToday">0</h4>
+                                <p>New Today</p>
+                            </div>
+                        </div>
+                        <div class="member-stat">
+                            <span class="stat-icon">📅</span>
+                            <div class="stat-info">
+                                <h4 id="activeMembers">0</h4>
+                                <p>Active This Month</p>
+                            </div>
+                        </div>
+                        <div class="member-stat">
+                            <span class="stat-icon">⭐</span>
+                            <div class="stat-info">
+                                <h4 id="topMembers">0</h4>
+                                <p>VIP Members</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="admin-card">
+                    <h3>Quick Actions</h3>
+                    <div class="member-quick-actions">
+                        <button class="admin-button" onclick="sendWelcomeToAll()">
+                            <span>📧</span> Send Welcome to New Members
+                        </button>
+                        <button class="admin-button secondary" onclick="exportMemberList()">
+                            <span>📊</span> Export Member List
+                        </button>
+                        <button class="admin-button secondary" onclick="refreshMemberData()">
+                            <span>🔄</span> Refresh Data
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Members Table -->
+                <div class="admin-card">
+                    <div class="members-table-header">
+                        <h3>All Members</h3>
+                        <div class="table-controls">
+                            <input type="text" id="memberSearch" placeholder="Search members..." class="search-input">
+                            <select id="memberFilter" class="filter-select">
+                                <option value="all">All Members</option>
+                                <option value="new">New Members (Last 7 days)</option>
+                                <option value="active">Active Members</option>
+                                <option value="auto-created">Auto-created Accounts</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="members-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Member</th>
+                                    <th>Contact</th>
+                                    <th>Joined</th>
+                                    <th>Bookings</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="membersTableBody">
+                                <tr>
+                                    <td colspan="6" style="text-align: center; color: #666;">Loading members...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Messages Management Section -->
+        <section id="messages" class="admin-section">
+            <div class="container">
+                <h2>Messages & Chat</h2>
+                
+                <!-- Message Overview Stats -->
+                <div class="admin-card">
+                    <h3>Message Overview</h3>
+                    <div class="message-stats-grid">
+                        <div class="message-stat">
+                            <span class="stat-icon">💬</span>
+                            <div class="stat-info">
+                                <h4 id="totalConversations">0</h4>
+                                <p>Active Conversations</p>
+                            </div>
+                        </div>
+                        <div class="message-stat">
+                            <span class="stat-icon">📩</span>
+                            <div class="stat-info">
+                                <h4 id="unreadMessages">0</h4>
+                                <p>Unread Messages</p>
+                            </div>
+                        </div>
+                        <div class="message-stat">
+                            <span class="stat-icon">⏰</span>
+                            <div class="stat-info">
+                                <h4 id="todayMessages">0</h4>
+                                <p>Messages Today</p>
+                            </div>
+                        </div>
+                        <div class="message-stat">
+                            <span class="stat-icon">📈</span>
+                            <div class="stat-info">
+                                <h4 id="responseTime">< 1h</h4>
+                                <p>Avg Response Time</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Interface -->
+                <div class="chat-interface">
+                    <!-- Conversations List -->
+                    <div class="conversations-panel">
+                        <div class="conversations-header">
+                            <h3>Conversations</h3>
+                            <div class="conversation-controls">
+                                <input type="text" id="conversationSearch" placeholder="Search conversations..." class="search-input">
+                                <select id="conversationFilter" class="filter-select">
+                                    <option value="all">All Conversations</option>
+                                    <option value="unread">Unread Only</option>
+                                    <option value="today">Today</option>
+                                    <option value="recent">Last 7 Days</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="conversations-list" id="conversationsList">
+                            <div class="conversation-placeholder">
+                                <p>Loading conversations...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Messages Area -->
+                    <div class="chat-panel">
+                        <div class="chat-header" id="chatHeader">
+                            <div class="chat-user-info">
+                                <div class="chat-avatar" id="currentChatAvatar">💬</div>
+                                <div class="chat-user-details">
+                                    <h4 id="currentChatName">Select a conversation</h4>
+                                    <p id="currentChatStatus">Choose a member to start chatting</p>
+                                </div>
+                            </div>
+                            <div class="chat-actions">
+                                <button class="chat-action-btn" onclick="archiveConversation()" title="Archive">📁</button>
+                                <button class="chat-action-btn" onclick="clearChatHistory()" title="Clear History">🗑️</button>
+                                <button class="chat-action-btn" onclick="refreshChat()" title="Refresh">🔄</button>
+                            </div>
+                        </div>
+
+                        <div class="chat-messages-container" id="chatMessagesContainer">
+                            <div class="chat-welcome">
+                                <div class="welcome-icon">💬</div>
+                                <h3>Welcome to Messages</h3>
+                                <p>Select a conversation from the left to start chatting with your members.</p>
+                            </div>
+                        </div>
+
+                        <div class="chat-input-container" id="chatInputContainer" style="display: none;">
+                            <div class="chat-input-area">
+                                <div class="input-with-actions">
+                                    <textarea id="adminMessageInput" placeholder="Type your message..." rows="2"></textarea>
+                                    <div class="input-actions">
+                                        <button class="input-action-btn" onclick="insertTemplate()" title="Templates">📝</button>
+                                        <button class="input-action-btn" onclick="attachFile()" title="Attach">📎</button>
+                                        <button class="send-message-btn" onclick="sendAdminMessage()">
+                                            <span>Send</span>
+                                            <span class="send-icon">➤</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="typing-indicator" id="typingIndicator" style="display: none;">
+                                    <span>Member is typing...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Message Templates Modal -->
+    <div id="messageTemplatesModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeMessageTemplatesModal()">&times;</span>
+            <h3>Message Templates</h3>
+            <div class="template-categories">
+                <div class="template-category">
+                    <h4>Welcome Messages</h4>
+                    <div class="template-list">
+                        <div class="template-item" onclick="insertMessageTemplate('welcome_standard')">
+                            <strong>Standard Welcome</strong>
+                            <p>Join us for a cooking class that features both technique and hands on learning when possible...</p>
+                        </div>
+                        <div class="template-item" onclick="insertMessageTemplate('welcome_personal')">
+                            <strong>Personal Welcome</strong>
+                            <p>Hi [NAME]! I'm Chef Brian, and I personally wanted to...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="template-category">
+                    <h4>Class Reminders</h4>
+                    <div class="template-list">
+                        <div class="template-item" onclick="insertMessageTemplate('reminder_24h')">
+                            <strong>24 Hour Reminder</strong>
+                            <p>Just a friendly reminder that your class is tomorrow...</p>
+                        </div>
+                        <div class="template-item" onclick="insertMessageTemplate('reminder_1h')">
+                            <strong>1 Hour Reminder</strong>
+                            <p>Your class starts in 1 hour! See you soon...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="template-category">
+                    <h4>Follow-up Messages</h4>
+                    <div class="template-list">
+                        <div class="template-item" onclick="insertMessageTemplate('followup_class')">
+                            <strong>Post-Class Follow-up</strong>
+                            <p>Thank you for joining today's class! How did you enjoy...</p>
+                        </div>
+                        <div class="template-item" onclick="insertMessageTemplate('followup_feedback')">
+                            <strong>Feedback Request</strong>
+                            <p>We'd love to hear your thoughts about your recent class...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Send Message Modal -->
+    <div id="sendMessageModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeSendMessageModal()">&times;</span>
+            <h3>Send Message to <span id="messageRecipientName">Member</span></h3>
+            <div class="recipient-info">
+                <div class="recipient-avatar" id="recipientAvatar">👤</div>
+                <div class="recipient-details">
+                    <h4 id="recipientFullName">Member Name</h4>
+                    <p id="recipientEmail">member@email.com</p>
+                </div>
+            </div>
+            <form id="sendMessageForm">
+                <div class="form-group">
+                    <label for="messageSubject">Message Type:</label>
+                    <select id="messageSubject" required>
+                        <option value="">Select message type...</option>
+                        <option value="welcome">Welcome Message</option>
+                        <option value="class_reminder">Class Reminder</option>
+                        <option value="general">General Message</option>
+                        <option value="feedback">Request Feedback</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="messageContent">Message:</label>
+                    <textarea id="messageContent" rows="4" required placeholder="Type your message here..."></textarea>
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="admin-button">Send Message</button>
+                    <button type="button" class="admin-button secondary" onclick="closeSendMessageModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Welcome Message Templates Modal -->
+    <div id="welcomeTemplatesModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeWelcomeTemplatesModal()">&times;</span>
+            <h3>Welcome Message Templates</h3>
+            <div class="template-options">
+                <div class="template-card" onclick="selectWelcomeTemplate('standard')">
+                    <h4>Standard Welcome</h4>
+                    <p>Join us for a cooking class that features both technique and hands on learning when possible. We're excited to have you join our culinary community...</p>
+                </div>
+                <div class="template-card" onclick="selectWelcomeTemplate('personal')">
+                    <h4>Personal Welcome</h4>
+                    <p>Hi [Name]! I'm Chef Brian, and I personally wanted to welcome you to our cooking family...</p>
+                </div>
+                <div class="template-card" onclick="selectWelcomeTemplate('promotional')">
+                    <h4>Welcome + Special Offer</h4>
+                    <p>Join us for a cooking class that features both technique and hands on learning when possible. As a new member, enjoy 10% off your first class...</p>
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button class="admin-button secondary" onclick="closeWelcomeTemplatesModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit/Delete Modal -->
+    <div id="classModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 id="modalTitle">Manage Day</h3>
+            <div id="modalButtons" class="modal-buttons">
+                <!-- Buttons will be populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Brian Averna Cottage Cooking - Admin Panel</p>
+        </div>
+    </footer>
+
+    <script>
+        // Check authentication before loading admin panel
+        function checkAuth() {
+            const isLoggedIn = sessionStorage.getItem('adminLoggedIn');
+            const loginTime = sessionStorage.getItem('loginTime');
+            const currentTime = Date.now();
+            const sessionDuration = 4 * 60 * 60 * 1000; // 4 hours
+            
+            if (!isLoggedIn || !loginTime || (currentTime - loginTime) > sessionDuration) {
+                // Clear session and redirect to login
+                sessionStorage.removeItem('adminLoggedIn');
+                sessionStorage.removeItem('loginTime');
+                window.location.href = 'login.html';
+                return false;
+            }
+            return true;
+        }
+        
+        // Check auth on page load
+        if (!checkAuth()) {
+            // Will redirect, so stop execution
+        } else {
+            // Load admin functionality
+            document.addEventListener('DOMContentLoaded', function() {
+                // Add logout functionality
+                const logoutBtn = document.createElement('button');
+                logoutBtn.textContent = 'Logout';
+                logoutBtn.className = 'admin-button secondary';
+                logoutBtn.style.marginLeft = 'auto';
+                logoutBtn.onclick = function() {
+                    sessionStorage.removeItem('adminLoggedIn');
+                    sessionStorage.removeItem('loginTime');
+                    window.location.href = 'login.html';
+                };
+                
+                // Add logout button to navbar
+                const navMenu = document.querySelector('.nav-menu');
+                const logoutLi = document.createElement('li');
+                logoutLi.appendChild(logoutBtn);
+                navMenu.appendChild(logoutLi);
+            });
+        }
+    </script>
+    <script src="admin.js"></script>
+</body>
+</html>
