@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard - Brian Averna Cottage Cooking</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="user-dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <img src="80EEC885-72BE-48B4-8172-AD040AAE62E9.png" alt="Brian Averna Cottage Cooking" class="logo-img">
+                    <span class="logo-text">My Dashboard</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Back to Website</a></li>
+                    <li><a href="#dashboard">Dashboard</a></li>
+                    <li><a href="#my-bookings">My Bookings</a></li>
+                    <li><a href="#messages">Messages</a></li>
+                    <li><a href="#profile">Profile</a></li>
+                    <li><a href="#" id="logoutBtn">Logout</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="dashboard-main">
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+            <div class="container">
+                <h1>Welcome back, <span id="userName">User</span>!</h1>
+                <p class="welcome-subtitle">Manage your cooking class bookings and connect with Chef Brian</p>
+            </div>
+        </section>
+
+        <!-- Dashboard Overview -->
+        <section id="dashboard" class="dashboard-section">
+            <div class="container">
+                <h2>Dashboard Overview</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📚</div>
+                        <h3>Total Bookings</h3>
+                        <div class="stat-number" id="userTotalBookings">0</div>
+                        <p>All time</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⏰</div>
+                        <h3>Upcoming Classes</h3>
+                        <div class="stat-number" id="userUpcomingClasses">0</div>
+                        <p>Next 30 days</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <h3>Completed Classes</h3>
+                        <div class="stat-number" id="userCompletedClasses">0</div>
+                        <p>All time</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💬</div>
+                        <h3>New Messages</h3>
+                        <div class="stat-number" id="userNewMessages">0</div>
+                        <p>Unread</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions-section">
+            <div class="container">
+                <h3>Quick Actions</h3>
+                <div class="quick-actions-grid">
+                    <button class="quick-action-btn" onclick="bookNewClass()">
+                        <span class="action-icon">📅</span>
+                        <span>Book New Class</span>
+                    </button>
+                    <button class="quick-action-btn" onclick="scrollToSection('my-bookings')">
+                        <span class="action-icon">📋</span>
+                        <span>View My Bookings</span>
+                    </button>
+                    <button class="quick-action-btn" onclick="scrollToSection('messages')">
+                        <span class="action-icon">💬</span>
+                        <span>Send Message</span>
+                    </button>
+                    <button class="quick-action-btn" onclick="scrollToSection('profile')">
+                        <span class="action-icon">👤</span>
+                        <span>Edit Profile</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- My Bookings Section -->
+        <section id="my-bookings" class="bookings-section">
+            <div class="container">
+                <h2>My Bookings</h2>
+                
+                <!-- Important Policy Notice -->
+                <div class="policy-notice">
+                    <div class="policy-notice-header">
+                        <span class="policy-icon">👨‍🍳</span>
+                        <h3>What to Expect in Our Classes</h3>
+                    </div>
+                    <div class="policy-content">
+                        <p><strong>Our intimate cooking environment:</strong> We keep our classes small and focused, which means we work with set menus and ingredients to ensure everyone has the best learning experience. If you have dietary concerns, feel free to reach out and we'll do our best to help! We occasionally need to adjust class sizes, and if that happens, we'll always take care of you with a full refund or rescheduling.</p>
+                        <div class="refund-policy">
+                            <h4>Flexible Booking Options</h4>
+                            <ul>
+                                <li><strong>7+ days ahead:</strong> Full refund, no questions asked! 😊</li>
+                                <li><strong>3-7 days ahead:</strong> Happy to reschedule or provide 50% credit</li>
+                                <li><strong>Last minute:</strong> We understand life happens - let's chat about options</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Upcoming Bookings -->
+                <div class="bookings-card">
+                    <h3>Upcoming Classes</h3>
+                    <div class="bookings-list" id="upcomingBookingsList">
+                        <div class="no-bookings">
+                            <p>No upcoming bookings. <a href="index.html#calendar">Book a class now!</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Past Bookings -->
+                <div class="bookings-card">
+                    <h3>Past Classes</h3>
+                    <div class="bookings-list" id="pastBookingsList">
+                        <div class="no-bookings">
+                            <p>No past bookings yet.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Messages Section -->
+        <section id="messages" class="messages-section">
+            <div class="container">
+                <h2>Messages & Chat</h2>
+                <div class="messages-container">
+                    <div class="messages-chat">
+                        <!-- User Conversations Panel -->
+                        <div class="user-conversations-panel">
+                            <div class="user-conversations-header">
+                                <h3>Your Conversations</h3>
+                                <div class="user-conversation-status">
+                                    <span>● Online</span>
+                                    <span>Ready to chat</span>
+                                </div>
+                            </div>
+                            <div class="user-conversations-list">
+                                <div class="user-conversation-item active">
+                                    <div class="user-conversation-avatar">👨‍🍳</div>
+                                    <div class="user-conversation-info">
+                                        <div class="user-conversation-name">Chef Brian Averna</div>
+                                        <div class="user-conversation-preview">Join us for a cooking class that features both technique and hands on learning when possible...</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chat Panel -->
+                        <div class="user-chat-panel">
+                            <div class="chat-header">
+                                <div class="chat-user-info">
+                                    <div class="chat-avatar">👨‍🍳</div>
+                                    <div class="chat-user-details">
+                                        <h3>Chef Brian Averna</h3>
+                                        <p class="online-status">● Online</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="chat-messages" id="chatMessages">
+                                <div class="message admin-message">
+                                    <div class="message-avatar">👨‍🍳</div>
+                                    <div class="message-content">
+                                        <div class="message-header">
+                                            <span class="message-sender">Chef Brian</span>
+                                            <span class="message-time">Welcome!</span>
+                                        </div>
+                                        <div class="message-text">Join us for a cooking class that features both technique and hands on learning when possible. I'm excited to help you on your culinary journey. Feel free to ask me any questions about our classes!</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="chat-input">
+                                <div class="input-group">
+                                    <textarea id="messageInput" placeholder="Type your message to Chef Brian..." rows="2"></textarea>
+                                    <button id="sendMessageBtn" onclick="sendMessage()">
+                                        <span>Send</span>
+                                        <span class="send-icon">➤</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profile" class="profile-section">
+            <div class="container">
+                <h2>My Profile</h2>
+                <div class="profile-card">
+                    <form id="profileForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="profileFirstName">First Name:</label>
+                                <input type="text" id="profileFirstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="profileLastName">Last Name:</label>
+                                <input type="text" id="profileLastName" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="profileEmail">Email:</label>
+                                <input type="email" id="profileEmail" required readonly>
+                                <small>Email cannot be changed. Contact admin if needed.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="profilePhone">Phone Number:</label>
+                                <input type="tel" id="profilePhone" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="profileDietary">Dietary Restrictions/Preferences:</label>
+                            <textarea id="profileDietary" rows="3" placeholder="Let us know about any allergies or dietary preferences..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="profileExperience">Cooking Experience Level:</label>
+                            <select id="profileExperience">
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                                <option value="professional">Professional</option>
+                            </select>
+                        </div>
+                        <div class="profile-actions">
+                            <button type="submit" class="profile-save-btn">Save Profile</button>
+                            <button type="button" class="profile-change-password-btn" onclick="userDashboard.changePassword()">Change Password</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Book New Class Modal -->
+    <div id="bookClassModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeBookModal()">&times;</span>
+            <h3>Book a New Class</h3>
+            <p>This will redirect you to our booking calendar where you can select and book your next cooking class.</p>
+            <div class="modal-buttons">
+                <button class="modal-btn" onclick="window.location.href='index.html#calendar'">Go to Booking Calendar</button>
+                <button class="modal-btn secondary" onclick="closeBookModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Brian Averna Cottage Cooking. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="user-dashboard.js"></script>
+</body>
+</html>

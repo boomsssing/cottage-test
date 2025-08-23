@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful - Brian Averna Cottage Cooking</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        .success-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #7a9a4d 0%, #2c5530 100%);
+            padding: 20px;
+        }
+
+        .success-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: bounce 1s ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .success-title {
+            color: #2c5530;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .success-subtitle {
+            color: #666;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .booking-details {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .booking-details h3 {
+            color: #2c5530;
+            margin-bottom: 20px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .detail-value {
+            color: #2c5530;
+            font-weight: 500;
+        }
+
+        .payment-info {
+            background: #e8f5e8;
+            border: 2px solid #7a9a4d;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .payment-info h4 {
+            color: #2c5530;
+            margin-bottom: 15px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .next-steps {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .next-steps h4 {
+            color: #856404;
+            margin-bottom: 15px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .next-steps ul {
+            text-align: left;
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .next-steps li {
+            margin-bottom: 8px;
+            color: #856404;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: #7a9a4d;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2c5530;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #7a9a4d;
+            border: 2px solid #7a9a4d;
+        }
+
+        .btn-secondary:hover {
+            background: #7a9a4d;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .contact-info {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .contact-info p {
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .logo {
+            margin-bottom: 20px;
+        }
+
+        .logo img {
+            height: 60px;
+            width: auto;
+        }
+
+        @media (max-width: 768px) {
+            .success-card {
+                padding: 30px 20px;
+            }
+
+            .success-title {
+                font-size: 2rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-card">
+            <div class="logo">
+                <img src="80EEC885-72BE-48B4-8172-AD040AAE62E9.png" alt="Cottage Cooking Logo">
+            </div>
+            
+            <div class="success-icon">✅</div>
+            <h1 class="success-title">Payment Successful!</h1>
+            <p class="success-subtitle">Your cooking class booking has been confirmed</p>
+
+            <div class="booking-details" id="bookingDetails">
+                <h3>Booking Details</h3>
+                <div class="detail-row">
+                    <span class="detail-label">Class:</span>
+                    <span class="detail-value" id="className">Loading...</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Date:</span>
+                    <span class="detail-value" id="classDate">Loading...</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Seats:</span>
+                    <span class="detail-value" id="seats">Loading...</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Total Amount:</span>
+                    <span class="detail-value" id="totalAmount">Loading...</span>
+                </div>
+            </div>
+
+            <div class="payment-info">
+                <h4>Payment Information</h4>
+                <div class="detail-row">
+                    <span class="detail-label">Payment Method:</span>
+                    <span class="detail-value">PayPal</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Transaction ID:</span>
+                    <span class="detail-value" id="transactionId">Loading...</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Payment Date:</span>
+                    <span class="detail-value" id="paymentDate">Loading...</span>
+                </div>
+            </div>
+
+            <div class="next-steps">
+                <h4>What's Next?</h4>
+                <ul>
+                    <li>You'll receive a confirmation email shortly</li>
+                    <li>Check your dashboard for booking details</li>
+                    <li>We'll send you a reminder 24 hours before your class</li>
+                    <li>Arrive 10 minutes early to your scheduled class</li>
+                </ul>
+            </div>
+
+            <div class="action-buttons">
+                <a href="user-dashboard.html" class="btn btn-primary">Go to My Dashboard</a>
+                <a href="index.html" class="btn btn-secondary">Back to Website</a>
+            </div>
+
+            <div class="contact-info">
+                <p><strong>Questions?</strong> Contact us at brianwaverna@gmail.com</p>
+                <p>Phone: (203) 545-9969</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get payment success data from session storage
+            const paymentSuccess = sessionStorage.getItem('paymentSuccess');
+            const pendingBooking = sessionStorage.getItem('pendingBooking');
+            
+            if (paymentSuccess && pendingBooking) {
+                const paymentData = JSON.parse(paymentSuccess);
+                const bookingData = JSON.parse(pendingBooking);
+                
+                // Populate booking details
+                document.getElementById('className').textContent = bookingData.className;
+                document.getElementById('classDate').textContent = new Date(bookingData.classDate).toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                document.getElementById('seats').textContent = bookingData.seats + ' seat(s)';
+                document.getElementById('totalAmount').textContent = '$' + bookingData.totalAmount;
+                document.getElementById('transactionId').textContent = paymentData.id;
+                document.getElementById('paymentDate').textContent = new Date().toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                // Clear session storage
+                sessionStorage.removeItem('paymentSuccess');
+                sessionStorage.removeItem('pendingBooking');
+                
+                // Update user dashboard if logged in
+                updateUserDashboard(bookingData, paymentData);
+            } else {
+                // Redirect to home if no payment data
+                window.location.href = 'index.html';
+            }
+        });
+
+        function updateUserDashboard(bookingData, paymentData) {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            if (currentUser.email) {
+                // Add booking to user's bookings
+                const userBookings = JSON.parse(localStorage.getItem('userBookings') || '[]');
+                const newBooking = {
+                    ...bookingData,
+                    payment: {
+                        paypalOrderId: paymentData.id,
+                        paymentStatus: 'completed',
+                        paymentAmount: paymentData.purchase_units[0].amount.value,
+                        paymentDate: new Date().toISOString(),
+                        payerId: paymentData.payer.payer_id,
+                        payerEmail: paymentData.payer.email_address
+                    },
+                    status: 'paid',
+                    bookingDate: new Date().toISOString()
+                };
+                userBookings.push(newBooking);
+                localStorage.setItem('userBookings', JSON.stringify(userBookings));
+            }
+        }
+    </script>
+</body>
+</html>
