@@ -1406,6 +1406,7 @@ margin-bottom: 10px;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    margin-top: 10px; /* Additional margin to push logo down slightly */
 }
 
 .hamburger {
@@ -1421,11 +1422,27 @@ margin-bottom: 10px;
 
 .navbar {
     padding: 2rem 0;
+    padding-top: 3rem; /* Extra top padding for mobile to prevent logo cutoff */
 }
 
-.logo-img {
-    height: 160px;
-}
+    .logo-img {
+        height: 120px; /* Smaller logo for mobile devices */
+    }
+    
+    /* Extra small mobile devices */
+    @media (max-width: 480px) {
+        .navbar {
+            padding-top: 2.5rem; /* Reduced padding since logo is smaller */
+        }
+        
+        .logo {
+            margin-top: 5px; /* Reduced margin since logo is smaller */
+        }
+        
+        .logo-img {
+            height: 100px; /* Even smaller logo for very small screens */
+        }
+    }
 
 .hero {
     flex-direction: column !important;
@@ -2146,14 +2163,6 @@ max-height: 90vh;
 overflow-y: auto;
 }
 
-/* Mobile-specific adjustments for auth modals */
-@media (max-width: 768px) {
-.auth-modal-content {
-margin: 10% auto; /* Push modal down more on mobile */
-padding: 30px 20px; /* Reduce padding on mobile */
-}
-}
-
 .close-auth-modal {
 position: absolute;
 right: 20px;
@@ -2165,15 +2174,6 @@ cursor: pointer;
 transition: color 0.3s ease;
 }
 
-/* Mobile-specific close button adjustments */
-@media (max-width: 768px) {
-.close-auth-modal {
-top: 20px; /* Push close button down more on mobile */
-right: 15px; /* Slightly adjust right position */
-font-size: 24px; /* Slightly smaller on mobile */
-}
-}
-
 .close-auth-modal:hover {
 color: #333;
 }
@@ -2181,7 +2181,6 @@ color: #333;
 .auth-logo {
 text-align: center;
 margin-bottom: 20px;
-margin-top: 10px; /* Add top margin to push logo down */
 }
 
 .auth-logo-img {
@@ -2189,19 +2188,6 @@ height: 60px;
 width: auto;
 max-width: 200px;
 object-fit: contain;
-}
-
-/* Mobile-specific logo adjustments */
-@media (max-width: 768px) {
-.auth-logo {
-margin-top: 20px; /* Push logo down more on mobile */
-margin-bottom: 25px; /* More space below logo */
-}
-
-.auth-logo-img {
-height: 50px; /* Slightly smaller on mobile */
-max-width: 180px; /* Smaller max width on mobile */
-}
 }
 
 .auth-modal h3 {
