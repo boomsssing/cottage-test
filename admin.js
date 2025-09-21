@@ -866,41 +866,41 @@ function getAdminClassesFromStorage() {
     // 2025 Culinary Class Schedule - Admin Format - EXACT from client specification
     const defaultClasses = [
         // Classic Italian American I - 9/20/25 6:00-9:00, 11/1/25 6:00-9:00
-        { id: 1, type: 'classic-italian-1', name: 'Classic Italian American I', date: '2025-09-20', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 125, description: 'Sicilian Orange Salad • Three Cheese Garlic Bread • Tuscan White Bean Spread • Spaghetti with Fresh Pomodoro Sauce • Zabaglione' },
-        { id: 2, type: 'classic-italian-1', name: 'Classic Italian American I', date: '2025-11-01', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 125, description: 'Sicilian Orange Salad • Three Cheese Garlic Bread • Tuscan White Bean Spread • Spaghetti with Fresh Pomodoro Sauce • Zabaglione' },
+        { id: 1, type: 'classic-italian-1', name: 'Classic Italian American I', date: '2025-09-20', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Sicilian Orange Salad • Three Cheese Garlic Bread • Tuscan White Bean Spread • Spaghetti with Fresh Pomodoro Sauce • Zabaglione' },
+        { id: 2, type: 'classic-italian-1', name: 'Classic Italian American I', date: '2025-11-01', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Sicilian Orange Salad • Three Cheese Garlic Bread • Tuscan White Bean Spread • Spaghetti with Fresh Pomodoro Sauce • Zabaglione' },
         
         // Classic Italian American II - 10/4/25 6:00-9:00, 11/8/25 6:00-9:00
-        { id: 3, type: 'classic-italian-2', name: 'Classic Italian American II', date: '2025-10-04', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 135, description: 'Sausage Stuffed Mushrooms • Panzanella Salad • Homemade Pappardelle Alla Vodka • Chocolate Amaretto Soufflé' },
-        { id: 4, type: 'classic-italian-2', name: 'Classic Italian American II', date: '2025-11-08', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 135, description: 'Sausage Stuffed Mushrooms • Panzanella Salad • Homemade Pappardelle Alla Vodka • Chocolate Amaretto Soufflé' },
+        { id: 3, type: 'classic-italian-2', name: 'Classic Italian American II', date: '2025-10-04', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Sausage Stuffed Mushrooms • Panzanella Salad • Homemade Pappardelle Alla Vodka • Chocolate Amaretto Soufflé' },
+        { id: 4, type: 'classic-italian-2', name: 'Classic Italian American II', date: '2025-11-08', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Sausage Stuffed Mushrooms • Panzanella Salad • Homemade Pappardelle Alla Vodka • Chocolate Amaretto Soufflé' },
         
         // Classic Italian American III - 10/10/25 7:00-10:00, 11/15 6:00-9:00
-        { id: 5, type: 'classic-italian-3', name: 'Classic Italian American III', date: '2025-10-10', time: '7:00-10:00 PM', maxSeats: 8, bookedSeats: 0, price: 145, description: 'Pasta Fagioli Soup • Chicken Francese • Mushroom Risotto • Fried Sicilian Zeppole' },
-        { id: 6, type: 'classic-italian-3', name: 'Classic Italian American III', date: '2025-11-15', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 145, description: 'Pasta Fagioli Soup • Chicken Francese • Mushroom Risotto • Fried Sicilian Zeppole' },
+        { id: 5, type: 'classic-italian-3', name: 'Classic Italian American III', date: '2025-10-10', time: '7:00-10:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Pasta Fagioli Soup • Chicken Francese • Mushroom Risotto • Fried Sicilian Zeppole' },
+        { id: 6, type: 'classic-italian-3', name: 'Classic Italian American III', date: '2025-11-15', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Pasta Fagioli Soup • Chicken Francese • Mushroom Risotto • Fried Sicilian Zeppole' },
         
         // Pasta Sauces - 10/18/25 6:00-9:00, 11/7/25 6:00-9:00
-        { id: 7, type: 'pasta-sauces', name: 'Pasta Sauces', date: '2025-10-18', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 95, description: 'Marinara • Amatriciana • Broccoli Aglio Olio • Lemon Alfredo • Tiramisu' },
-        { id: 8, type: 'pasta-sauces', name: 'Pasta Sauces', date: '2025-11-07', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 95, description: 'Marinara • Amatriciana • Broccoli Aglio Olio • Lemon Alfredo • Tiramisu' },
+        { id: 7, type: 'pasta-sauces', name: 'Pasta Sauces', date: '2025-10-18', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Marinara • Amatriciana • Broccoli Aglio Olio • Lemon Alfredo • Tiramisu' },
+        { id: 8, type: 'pasta-sauces', name: 'Pasta Sauces', date: '2025-11-07', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Marinara • Amatriciana • Broccoli Aglio Olio • Lemon Alfredo • Tiramisu' },
         
         // Fresh Scratch Pasta - 9/26/25 6:00-9:00, 11/22/25 6:00-9:00
-        { id: 9, type: 'fresh-pasta', name: 'Fresh Scratch Pasta', date: '2025-09-26', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 115, description: 'Gnocchi • Fettucine • Pappardelle • Tortellini • Fresh Pomodoro Sauce • Cannoli' },
-        { id: 10, type: 'fresh-pasta', name: 'Fresh Scratch Pasta', date: '2025-11-22', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 115, description: 'Gnocchi • Fettucine • Pappardelle • Tortellini • Fresh Pomodoro Sauce • Cannoli' },
+        { id: 9, type: 'fresh-pasta', name: 'Fresh Scratch Pasta', date: '2025-09-26', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Gnocchi • Fettucine • Pappardelle • Tortellini • Fresh Pomodoro Sauce • Cannoli' },
+        { id: 10, type: 'fresh-pasta', name: 'Fresh Scratch Pasta', date: '2025-11-22', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Gnocchi • Fettucine • Pappardelle • Tortellini • Fresh Pomodoro Sauce • Cannoli' },
         
         // Thanksgiving Sides - 11/14/25 7:00-10:00, 11/21 7:00-9:00
-        { id: 11, type: 'thanksgiving', name: 'Thanksgiving Sides', date: '2025-11-14', time: '7:00-10:00 PM', maxSeats: 8, bookedSeats: 0, price: 105, description: 'Mascarpone Chive Mashed Potatoes • Bacon Balsamic Brussel Sprouts • Parker House Rolls • Butternut Squash Pecan Tarts • Amaretto Seared Mushrooms' },
-        { id: 12, type: 'thanksgiving', name: 'Thanksgiving Sides', date: '2025-11-21', time: '7:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 105, description: 'Mascarpone Chive Mashed Potatoes • Bacon Balsamic Brussel Sprouts • Parker House Rolls • Butternut Squash Pecan Tarts • Amaretto Seared Mushrooms' },
+        { id: 11, type: 'thanksgiving', name: 'Thanksgiving Sides', date: '2025-11-14', time: '7:00-10:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Mascarpone Chive Mashed Potatoes • Bacon Balsamic Brussel Sprouts • Parker House Rolls • Butternut Squash Pecan Tarts • Amaretto Seared Mushrooms' },
+        { id: 12, type: 'thanksgiving', name: 'Thanksgiving Sides', date: '2025-11-21', time: '7:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Mascarpone Chive Mashed Potatoes • Bacon Balsamic Brussel Sprouts • Parker House Rolls • Butternut Squash Pecan Tarts • Amaretto Seared Mushrooms' },
         
         // Holiday Appetizers - 12/5/25 7:00-10:00, 12/13/25 7:00-10:00
-        { id: 13, type: 'holiday-appetizers', name: 'Holiday Appetizers', date: '2025-12-05', time: '7:00-10:00 PM', maxSeats: 8, bookedSeats: 0, price: 125, description: 'Miniature Beef Wellingtons • Sausage Mascarpone Stuffed Mushrooms • Fresh Hummus and Parmesan Pita Chips • Miniature Arancini Rice Balls • Sausage Spinach Pie' },
-        { id: 14, type: 'holiday-appetizers', name: 'Holiday Appetizers', date: '2025-12-13', time: '7:00-10:00 PM', maxSeats: 8, bookedSeats: 0, price: 125, description: 'Miniature Beef Wellingtons • Sausage Mascarpone Stuffed Mushrooms • Fresh Hummus and Parmesan Pita Chips • Miniature Arancini Rice Balls • Sausage Spinach Pie' },
+        { id: 13, type: 'holiday-appetizers', name: 'Holiday Appetizers', date: '2025-12-05', time: '7:00-10:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Miniature Beef Wellingtons • Sausage Mascarpone Stuffed Mushrooms • Fresh Hummus and Parmesan Pita Chips • Miniature Arancini Rice Balls • Sausage Spinach Pie' },
+        { id: 14, type: 'holiday-appetizers', name: 'Holiday Appetizers', date: '2025-12-13', time: '7:00-10:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Miniature Beef Wellingtons • Sausage Mascarpone Stuffed Mushrooms • Fresh Hummus and Parmesan Pita Chips • Miniature Arancini Rice Balls • Sausage Spinach Pie' },
         
         // Holiday Chocolate Desserts - 11/28/25 6:00-9:00, 12/6/25 6:00-9:00
         { id: 15, type: 'holiday-desserts', name: 'Holiday Chocolate Desserts', date: '2025-11-28', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Chocolate Cranberry Paté • Chocolate Truffles • Christmas Blondies • Chocolate Chip Cookie Stuffed Fudge Brownies' },
         { id: 16, type: 'holiday-desserts', name: 'Holiday Chocolate Desserts', date: '2025-12-06', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Chocolate Cranberry Paté • Chocolate Truffles • Christmas Blondies • Chocolate Chip Cookie Stuffed Fudge Brownies' },
         
         // Easy Breads - 9/27/25 1:00-4:00, 10/25/25 1:00-4:00, 12/12/25 7:00-10:00
-        { id: 17, type: 'easy-breads', name: 'Easy Breads', date: '2025-09-27', time: '1:00-4:00 PM', maxSeats: 8, bookedSeats: 0, price: 95, description: 'Focaccia • Rustic French Boule • Ciabatta • Brazilian Cheese Rolls • Homemade Butter' },
-        { id: 18, type: 'easy-breads', name: 'Easy Breads', date: '2025-10-25', time: '1:00-4:00 PM', maxSeats: 8, bookedSeats: 0, price: 95, description: 'Focaccia • Rustic French Boule • Ciabatta • Brazilian Cheese Rolls • Homemade Butter' },
-        { id: 19, type: 'easy-breads', name: 'Easy Breads', date: '2025-12-12', time: '7:00-10:00 PM', maxSeats: 8, bookedSeats: 0, price: 95, description: 'Focaccia • Rustic French Boule • Ciabatta • Brazilian Cheese Rolls • Homemade Butter' },
+        { id: 17, type: 'easy-breads', name: 'Easy Breads', date: '2025-09-27', time: '1:00-4:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Focaccia • Rustic French Boule • Ciabatta • Brazilian Cheese Rolls • Homemade Butter' },
+        { id: 18, type: 'easy-breads', name: 'Easy Breads', date: '2025-10-25', time: '1:00-4:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Focaccia • Rustic French Boule • Ciabatta • Brazilian Cheese Rolls • Homemade Butter' },
+        { id: 19, type: 'easy-breads', name: 'Easy Breads', date: '2025-12-12', time: '7:00-10:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Focaccia • Rustic French Boule • Ciabatta • Brazilian Cheese Rolls • Homemade Butter' },
         
         // International Winter Soups - 10/24/25 7:00-10:00, 12/20/25 6:00-9:00
         { id: 20, type: 'winter-soups', name: 'International Winter Soups', date: '2025-10-24', time: '7:00-10:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Chicken Matzoh Ball • Pasta Fagioli • Sopa De Pollo (Mexican Chicken Soup) • Hungarian Goulyas Soup • Beef Barley' },
@@ -1125,8 +1125,12 @@ function hideModal() {
 function handleAddNewClass() {
     if (!selectedClass || selectedClass.hasClass !== false) return;
     
-    // Pre-populate the date field
-    document.getElementById('classDate').value = selectedClass.date;
+    // Pre-populate the date field with timezone fix
+    const dateStr = selectedClass.date;
+    const [year, month, day] = dateStr.split('-');
+    const localDate = new Date(year, month - 1, day); // month is 0-indexed
+    const formattedDate = localDate.toISOString().split('T')[0];
+    document.getElementById('classDate').value = formattedDate;
     
     // Clear other fields
     document.getElementById('classType').value = '';
@@ -1148,7 +1152,15 @@ function handleEditClass() {
     
     // Populate the add class form with the selected class data
     document.getElementById('classType').value = selectedClass.type;
-    document.getElementById('classDate').value = selectedClass.date;
+    
+    // Fix timezone issue: ensure date is displayed correctly in the input field
+    // Parse the date string and format it properly to avoid timezone shifts
+    const dateStr = selectedClass.date;
+    const [year, month, day] = dateStr.split('-');
+    const localDate = new Date(year, month - 1, day); // month is 0-indexed
+    const formattedDate = localDate.toISOString().split('T')[0];
+    
+    document.getElementById('classDate').value = formattedDate;
     document.getElementById('classTime').value = selectedClass.time;
     document.getElementById('maxSeats').value = selectedClass.maxSeats;
     document.getElementById('price').value = selectedClass.price;
@@ -1309,7 +1321,10 @@ function showMessage(text, type = 'info') {
 }
 
 function formatDate(dateString) {
-    return new Date(dateString).toLocaleDateString('en-US', {
+    // Fix timezone issue: parse date components to avoid timezone shifts
+    const [year, month, day] = dateString.split('-');
+    const localDate = new Date(year, month - 1, day); // month is 0-indexed
+    return localDate.toLocaleDateString('en-US', {
         weekday: 'long',
         year: 'numeric',
         month: 'long',

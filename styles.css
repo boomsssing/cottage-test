@@ -1,7 +1,4 @@
-.logo {
-    grid-column: unset;
-    justify-content: center;
-}
+/* Logo styles consolidated - removed duplicate rule */
 /* Enhanced Color Palette */
 :root {
 --bg-primary: #fefefe;
@@ -154,6 +151,8 @@ grid-column: 2;
 .logo-img {
 height: 180px;
 width: auto;
+transition: none; /* Prevent flickering during layout changes */
+will-change: auto; /* Optimize for static positioning */
 }
 
 .nav-menu {

@@ -28,7 +28,7 @@
         </nav>
     </header>
 
-    <main style="padding-top: 150px;">
+    <main class="main-content">
         <!-- Dashboard Section -->
         <section id="dashboard" class="admin-section">
             <div class="container">
@@ -256,7 +256,7 @@
                         <h3>All Members</h3>
                         <div class="table-controls">
                             <input type="text" id="memberSearch" placeholder="Search members..." class="search-input">
-                            <select id="memberFilter" class="filter-select">
+                            <select id="memberFilter" class="filter-select" aria-label="Filter members">
                                 <option value="all">All Members</option>
                                 <option value="new">New Members (Last 7 days)</option>
                                 <option value="active">Active Members</option>
@@ -278,7 +278,7 @@
                             </thead>
                             <tbody id="membersTableBody">
                                 <tr>
-                                    <td colspan="6" style="text-align: center; color: #666;">Loading members...</td>
+                                    <td colspan="6" class="loading-message">Loading members...</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -335,7 +335,7 @@
                             <h3>Conversations</h3>
                             <div class="conversation-controls">
                                 <input type="text" id="conversationSearch" placeholder="Search conversations..." class="search-input">
-                                <select id="conversationFilter" class="filter-select">
+                                <select id="conversationFilter" class="filter-select" aria-label="Filter conversations">
                                     <option value="all">All Conversations</option>
                                     <option value="unread">Unread Only</option>
                                     <option value="today">Today</option>
@@ -375,7 +375,7 @@
                             </div>
                         </div>
 
-                        <div class="chat-input-container" id="chatInputContainer" style="display: none;">
+                        <div class="chat-input-container hidden" id="chatInputContainer">
                             <div class="chat-input-area">
                                 <div class="input-with-actions">
                                     <textarea id="adminMessageInput" placeholder="Type your message..." rows="2"></textarea>
@@ -388,7 +388,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div class="typing-indicator" id="typingIndicator" style="display: none;">
+                                <div class="typing-indicator hidden" id="typingIndicator">
                                     <span>Member is typing...</span>
                                 </div>
                             </div>

@@ -50,12 +50,36 @@ class AuthSystem {
 
     checkAuthState() {
         const isLoggedIn = localStorage.getItem('userLoggedIn');
+        const loginTime = localStorage.getItem('userLoginTime');
         const authLink = document.getElementById('authLink');
         
-        if (isLoggedIn) {
+        // Check session timeout (24 hours)
+        const sessionDuration = 24 * 60 * 60 * 1000;
+        const currentTime = Date.now();
+        
+        if (isLoggedIn && loginTime && (currentTime - parseInt(loginTime)) < sessionDuration) {
             const userData = JSON.parse(localStorage.getItem('currentUser') || '{}');
-            this.updateNavForLoggedInUser(userData); 
-        } else {
+            if (userData.email) {
+                this.updateNavForLoggedInUser(userData);
+                return;
+            }
+        }
+        
+        // Session expired or not logged in - clear everything
+        if (isLoggedIn) {
+            localStorage.removeItem('userLoggedIn');
+            localStorage.removeItem('userLoginTime');
+            localStorage.removeItem('currentUser');
+            
+            // Trigger storage event for cross-tab sync
+            window.dispatchEvent(new StorageEvent('storage', {
+                key: 'userLoggedIn',
+                newValue: null,
+                oldValue: 'true'
+            }));
+        }
+        
+        if (authLink) {
             authLink.textContent = 'Sign In';
             authLink.onclick = () => this.openSignInModal();
         }
@@ -188,9 +212,25 @@ class AuthSystem {
 
         if (user) {
             // Successful login
-            localStorage.setItem('userLoggedIn', 'true');
-            localStorage.setItem('userLoginTime', Date.now().toString());
-            localStorage.setItem('currentUser', JSON.stringify(user));
+            try {
+                localStorage.setItem('userLoggedIn', 'true');
+                localStorage.setItem('userLoginTime', Date.now().toString());
+                localStorage.setItem('currentUser', JSON.stringify(user));
+            } catch (error) {
+                console.error('Failed to save login data:', error);
+                this.showMessage('Login failed. Please clear your browser storage and try again.', 'error');
+                return;
+            }
+            
+            // CRITICAL: Trigger storage event for cross-tab sync
+            window.dispatchEvent(new StorageEvent('storage', {
+                key: 'userLoggedIn',
+                newValue: 'true',
+                oldValue: null
+            }));
+            
+            // Update navigation immediately
+            this.updateNavForLoggedInUser(user);
             
             this.showMessage('Welcome back! Redirecting to your dashboard...', 'success');
             
@@ -206,18 +246,48 @@ class AuthSystem {
         e.preventDefault();
         
         const formData = {
-            firstName: document.getElementById('signUpFirstName').value,
-            lastName: document.getElementById('signUpLastName').value,
-            email: document.getElementById('signUpEmail').value,
-            phone: document.getElementById('signUpPhone').value,
+            firstName: document.getElementById('signUpFirstName').value.trim(),
+            lastName: document.getElementById('signUpLastName').value.trim(),
+            email: document.getElementById('signUpEmail').value.trim().toLowerCase(),
+            phone: document.getElementById('signUpPhone').value.trim(),
             password: document.getElementById('signUpPassword').value,
             confirmPassword: document.getElementById('signUpConfirmPassword').value,
-            dietary: document.getElementById('signUpDietary').value,
+            dietary: document.getElementById('signUpDietary').value.trim(),
             createdAt: new Date().toISOString(),
             experience: 'beginner'
         };
 
-        // Validate passwords match
+        // Enhanced validation
+        if (!formData.firstName || formData.firstName.length < 2) {
+            this.showMessage('First name must be at least 2 characters long.', 'error');
+            return;
+        }
+        
+        if (!formData.lastName || formData.lastName.length < 2) {
+            this.showMessage('Last name must be at least 2 characters long.', 'error');
+            return;
+        }
+        
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(formData.email)) {
+            this.showMessage('Please enter a valid email address.', 'error');
+            return;
+        }
+        
+        // Phone validation (basic)
+        const phoneRegex = /^[\d\s\-\+\(\)]{10,}$/;
+        if (!phoneRegex.test(formData.phone)) {
+            this.showMessage('Please enter a valid phone number (at least 10 digits).', 'error');
+            return;
+        }
+
+        // Password validation
+        if (formData.password.length < 6) {
+            this.showMessage('Password must be at least 6 characters long.', 'error');
+            return;
+        }
+        
         if (formData.password !== formData.confirmPassword) {
             this.showMessage('Passwords do not match.', 'error');
             return;
@@ -234,12 +304,27 @@ class AuthSystem {
         const newUser = { ...formData };
         delete newUser.confirmPassword; // Don't store confirm password
         users.push(newUser);
-        localStorage.setItem('users', JSON.stringify(users));
+        
+        try {
+            localStorage.setItem('users', JSON.stringify(users));
+            localStorage.setItem('userLoggedIn', 'true');
+            localStorage.setItem('userLoginTime', Date.now().toString());
+            localStorage.setItem('currentUser', JSON.stringify(newUser));
+        } catch (error) {
+            console.error('Failed to save user data:', error);
+            this.showMessage('Failed to create account. Please try again or clear your browser storage.', 'error');
+            return;
+        }
 
-        // Auto sign in the new user
-        localStorage.setItem('userLoggedIn', 'true');
-        localStorage.setItem('userLoginTime', Date.now().toString());
-        localStorage.setItem('currentUser', JSON.stringify(newUser));
+        // CRITICAL: Trigger storage event for cross-tab sync
+        window.dispatchEvent(new StorageEvent('storage', {
+            key: 'userLoggedIn',
+            newValue: 'true',
+            oldValue: null
+        }));
+        
+        // Update navigation immediately
+        this.updateNavForLoggedInUser(newUser);
 
         // Send admin notification about new member
         addAdminNotification({
@@ -530,6 +615,13 @@ function logout() {
         localStorage.removeItem('userLoginTime');
         localStorage.removeItem('currentUser');
         
+        // CRITICAL: Trigger storage event for cross-tab sync
+        window.dispatchEvent(new StorageEvent('storage', {
+            key: 'userLoggedIn',
+            newValue: null,
+            oldValue: 'true'
+        }));
+        
         // Add logout notification for admin
         const logoutNotification = {
             type: 'logout',
@@ -559,6 +651,49 @@ function logout() {
     }
 }
 
+// Initialize AuthSystem globally
+let authSystem;
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    authSystem = new AuthSystem();
+    
+    // CRITICAL: Add real-time auth synchronization across tabs
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'userLoggedIn' || e.key === 'currentUser') {
+            console.log('🔄 Auth state changed in another tab - syncing...');
+            
+            // Check if user logged in/out in another tab
+            const isLoggedIn = localStorage.getItem('userLoggedIn');
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            
+            if (isLoggedIn && currentUser.email) {
+                // User logged in another tab - update this tab
+                if (authSystem) {
+                    authSystem.updateNavForLoggedInUser(currentUser);
+                    showUserMessage('✅ Signed in from another tab', 'success');
+                }
+            } else {
+                // User logged out in another tab - update this tab
+                const authLink = document.getElementById('authLink');
+                if (authLink && authSystem) {
+                    authLink.textContent = 'Sign In';
+                    authLink.onclick = () => authSystem.openSignInModal();
+                    
+                    // Remove user dropdown if exists
+                    const userMenuContainer = document.querySelector('.user-menu-container');
+                    if (userMenuContainer) {
+                        userMenuContainer.innerHTML = '<a href="#" id="authLink">Sign In</a>';
+                        document.getElementById('authLink').onclick = () => authSystem.openSignInModal();
+                    }
+                    
+                    showUserMessage('👋 Signed out from another tab', 'info');
+                }
+            }
+        }
+    });
+});
+
 // Global auth functions for modal controls
 function switchToSignUp() {
     document.getElementById('signInModal').style.display = 'none';
@@ -571,16 +706,16 @@ function switchToSignIn() {
 }
 
 function closeAuthModal() {
-    if (window.authSystem) {
-        window.authSystem.closeAuthModal();
+    if (authSystem) {
+        authSystem.closeAuthModal();
     }
 }
 
 function showForgotPassword() {
-    if (window.authSystem) {
-        window.authSystem.closeAuthModal();
+    if (authSystem) {
+        authSystem.closeAuthModal();
         setTimeout(() => {
-            window.authSystem.openForgotPasswordModal();
+            authSystem.openForgotPasswordModal();
         }, 100);
     }
 }
@@ -592,13 +727,13 @@ function goBackToEmailStep() {
 }
 
 function switchToSignInAfterReset() {
-    if (window.authSystem) {
-        window.authSystem.closeAuthModal();
+    if (authSystem) {
+        authSystem.closeAuthModal();
         setTimeout(() => {
-            window.authSystem.openSignInModal();
+            authSystem.openSignInModal();
             // Pre-fill email if available
-            if (window.authSystem.resetUser) {
-                document.getElementById('signInEmail').value = window.authSystem.resetUser.email;
+            if (authSystem.resetUser) {
+                document.getElementById('signInEmail').value = authSystem.resetUser.email;
                 document.getElementById('signInPassword').focus();
             }
         }, 100);
@@ -655,8 +790,7 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
     document.head.appendChild(style);
     
-    // Initialize Auth System
-    window.authSystem = new AuthSystem();
+    // Auth system already initialized globally
     
     // Form submission handler
     const bookingForm = document.getElementById('bookingForm');
@@ -827,15 +961,15 @@ function showClassDetails(className, date, time, description, seatsAvailable) {
     
     // Get price for class
     const classPricing = {
-        'Classic Italian American I': '$125',
-        'Classic Italian American II': '$135',
-        'Classic Italian American III': '$145',
-        'Pasta Sauces': '$95',
-        'Fresh Scratch Pasta': '$115',
-        'Thanksgiving Sides': '$105',
-        'Holiday Appetizers': '$125',
+        'Classic Italian American I': '$85',
+        'Classic Italian American II': '$85',
+        'Classic Italian American III': '$85',
+        'Pasta Sauces': '$85',
+        'Fresh Scratch Pasta': '$85',
+        'Thanksgiving Sides': '$85',
+        'Holiday Appetizers': '$85',
         'Holiday Chocolate Desserts': '$85',
-        'Easy Breads': '$95',
+        'Easy Breads': '$85',
         'International Winter Soups': '$85'
     };
     
@@ -931,18 +1065,18 @@ function showClassDetails(className, date, time, description, seatsAvailable) {
                         🚫 This class is fully booked
                     </div>`
                 }
-                                    <button onclick="closeClassDetails()" style="
-                        background: #e9ecef;
-                        color: #333;
-                        border: none;
-                        padding: 12px 20px;
-                        border-radius: 8px;
-                        font-size: 1rem;
-                        cursor: pointer;
-                        transition: all 0.3s ease;
-                    " onmouseover="this.style.background='#d4dae1'" onmouseout="this.style.background='#e9ecef'">
-                        Close
-                    </button>
+                <button onclick="closeClassDetails()" style="
+                    background: #e9ecef;
+                    color: #333;
+                    border: none;
+                    padding: 12px 20px;
+                    border-radius: 8px;
+                    font-size: 1rem;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                " onmouseover="this.style.background='#d4dae1'" onmouseout="this.style.background='#e9ecef'">
+                    Close
+                </button>
 
             </div>
         </div>
@@ -1067,7 +1201,7 @@ function showSignInPrompt(className, date) {
             </div>
             
             <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                <button onclick="window.authSystem.openSignInModal(); closeSignInPrompt();" style="
+                <button onclick="authSystem.openSignInModal(); closeSignInPrompt();" style="
                     background: #7a9a4d;
                     color: white;
                     border: none;
@@ -1080,7 +1214,7 @@ function showSignInPrompt(className, date) {
                     🔐 Sign In
                 </button>
                 
-                <button onclick="window.authSystem.openSignUpModal(); closeSignInPrompt();" style="
+                <button onclick="authSystem.openSignUpModal(); closeSignInPrompt();" style="
                     background: #6c757d;
                     color: white;
                     border: none;

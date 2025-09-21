@@ -490,14 +490,21 @@ class UserDashboard {
 
         // Update current user
         this.currentUser = profileData;
-        localStorage.setItem('currentUser', JSON.stringify(profileData));
+        
+        try {
+            localStorage.setItem('currentUser', JSON.stringify(profileData));
 
-        // Update user in users database
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        const userIndex = users.findIndex(user => user.email === profileData.email);
-        if (userIndex !== -1) {
-            users[userIndex] = {...users[userIndex], ...profileData};
-            localStorage.setItem('users', JSON.stringify(users));
+            // Update user in users database
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const userIndex = users.findIndex(user => user.email === profileData.email);
+            if (userIndex !== -1) {
+                users[userIndex] = {...users[userIndex], ...profileData};
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+        } catch (error) {
+            console.error('Failed to save profile:', error);
+            this.showMessage('Failed to save profile. Please clear your browser storage and try again.', 'error');
+            return;
         }
 
         // Update name display
@@ -561,6 +568,35 @@ class UserDashboard {
         setInterval(() => {
             this.syncData();
         }, 5000);
+        
+        // CRITICAL: Add cross-tab auth synchronization
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'userLoggedIn' || e.key === 'currentUser') {
+                console.log('🔄 Auth state changed in another tab - checking...');
+                
+                const isLoggedIn = localStorage.getItem('userLoggedIn');
+                const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+                
+                if (!isLoggedIn || !currentUser.email) {
+                    // User logged out in another tab - redirect this tab
+                    this.showMessage('👋 Signed out from another tab - redirecting...', 'info');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
+                } else if (currentUser.email !== this.currentUser?.email) {
+                    // Different user logged in - refresh dashboard
+                    this.showMessage('🔄 Different user signed in - refreshing...', 'info');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                }
+            }
+            
+            // Sync other data changes
+            if (e.key === 'cottageBookings' || e.key === 'userMessages') {
+                this.syncData();
+            }
+        });
     }
 
     syncData() {
