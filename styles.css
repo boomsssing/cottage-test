@@ -63,27 +63,32 @@ margin: 0 auto;
 padding: 0 20px;
 }
 
-/* Typography */
+/* Responsive Typography with Fluid Scaling */
+html {
+  font-size: 16px; /* Base font size */
+}
+
+/* Fluid typography using clamp() for automatic scaling */
 h1, h2, h3 {
-font-family: 'Playfair Display', serif;
-font-weight: 600;
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
 }
 
 h1 {
-font-size: 2.5rem;
-margin-bottom: 1rem;
-color: var(--accent-secondary);
-line-height: 1.3;
-font-weight: 600;
+  font-size: clamp(1.8rem, 4vw, 2.5rem); /* Scales from 1.8rem to 2.5rem */
+  margin-bottom: 1rem;
+  color: var(--accent-secondary);
+  line-height: 1.3;
+  font-weight: 600;
 }
 
 h2 {
-font-size: 2.8rem;
-margin-bottom: 2rem;
-text-align: center;
-color: var(--accent-secondary);
-position: relative;
-font-weight: 700;
+  font-size: clamp(2rem, 5vw, 2.8rem); /* Scales from 2rem to 2.8rem */
+  margin-bottom: 2rem;
+  text-align: center;
+  color: var(--accent-secondary);
+  position: relative;
+  font-weight: 700;
 }
 
 h2::after {
@@ -99,9 +104,20 @@ border-radius: 2px;
 }
 
 h3 {
-font-size: 1.05rem;
-margin-bottom: 0.7rem;
-color: var(--accent-secondary);
+  font-size: clamp(1rem, 2.5vw, 1.25rem); /* Responsive h3 */
+  margin-bottom: 0.7rem;
+  color: var(--accent-secondary);
+}
+
+/* Base text scaling */
+p, li, span {
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  line-height: 1.6;
+}
+
+/* Button text scaling */
+button, .btn, .cta-button {
+  font-size: clamp(0.9rem, 2.2vw, 1.15rem);
 }
 
 /* Navigation */
@@ -246,18 +262,18 @@ position: relative;
 z-index: 2;
 }
 
-/* Enhanced hero title */
+/* Enhanced hero title with fluid scaling */
 .hero-content h1 {
-font-size: 3.2rem;
-font-weight: 700;
-line-height: 1.2;
-margin-bottom: 1.5rem;
-background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-primary) 100%);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-background-clip: text;
-text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-animation: slideInLeft 1s ease-out;
+  font-size: clamp(2.2rem, 6vw, 3.2rem); /* Hero scales from 2.2rem to 3.2rem */
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  animation: slideInLeft 1s ease-out;
 }
 
 @keyframes slideInLeft {
@@ -272,13 +288,13 @@ animation: slideInLeft 1s ease-out;
 }
 
 .hero-content p {
-font-size: 1.25rem;
-margin-bottom: 2.5rem;
-color: var(--text-secondary);
-line-height: 1.7;
-font-weight: 400;
-opacity: 0.9;
-animation: slideInLeft 1s ease-out 0.3s both;
+  font-size: clamp(1rem, 3vw, 1.25rem); /* Hero paragraph scaling */
+  margin-bottom: 2.5rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-weight: 400;
+  opacity: 0.9;
+  animation: slideInLeft 1s ease-out 0.3s both;
 }
 
 .cta-button {
@@ -789,6 +805,91 @@ background: #2c5530;
     background: #f8f9fa;
     border-radius: 10px;
     border: 2px solid #e9ecef;
+}
+
+/* Custom Amount Section */
+.custom-amount-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.custom-amount-section .form-group {
+    margin-bottom: 15px;
+}
+
+.custom-amount-section label {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    color: #2c5530;
+    cursor: pointer;
+}
+
+.custom-amount-section input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2);
+}
+
+.custom-amount-input {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+}
+
+.custom-amount-hidden {
+    display: none;
+}
+
+.custom-amount-input label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #2c5530;
+}
+
+.custom-amount-input input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #dee2e6;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.custom-amount-input input[type="number"]:focus {
+    outline: none;
+    border-color: #7a9a4d;
+    box-shadow: 0 0 0 3px rgba(124, 154, 77, 0.1);
+}
+
+.custom-amount-note {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.9rem;
+    color: #6c757d;
+    font-style: italic;
+}
+
+.custom-amount-input input[type="number"].error {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+}
+
+.custom-amount-error {
+    display: none;
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 500;
 }
 
 .payment-section h4 {
@@ -1900,7 +2001,7 @@ object-fit: cover;
 box-shadow: 
     0 20px 40px rgba(0, 0, 0, 0.15),
     0 10px 20px rgba(124, 154, 77, 0.1);
-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
 position: relative;
 }
 
@@ -2877,4 +2978,269 @@ scroll-behavior: smooth;
 
 .important-notice strong {
     color: #d32f2f;
+}
+
+/* PayPal Integration Styles */
+#paypal-button-container {
+    margin-top: 20px;
+}
+
+.payment-processing-hidden {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.payment-message {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.payment-message-hidden {
+    display: none;
+}
+
+.payment-error {
+    color: #dc3545;
+    background: #f8d7da;
+}
+
+.payment-cancel {
+    color: #856404;
+    background: #fff3cd;
+}
+
+/* Payment Methods Section */
+.payment-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.payment-method {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 20px;
+    background: #ffffff;
+}
+
+.payment-method h5 {
+    color: #2c5530;
+    margin-bottom: 15px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Apple Pay Button Styles */
+.apple-pay-button {
+    width: 100%;
+    height: 50px;
+    background: #000000;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.apple-pay-button:hover {
+    background: #333333;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.apple-pay-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.apple-pay-button:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.apple-pay-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.apple-pay-text::before {
+    content: "🍎";
+    font-size: 18px;
+}
+
+/* Apple Pay Unavailable Message */
+.apple-pay-unavailable {
+    text-align: center;
+    padding: 20px;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    color: #6c757d;
+}
+
+.apple-pay-unavailable p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.apple-pay-hidden {
+    display: none;
+}
+
+/* ===== COMPREHENSIVE MOBILE RESPONSIVENESS ===== */
+
+/* Mobile-First Font Scaling (320px to 768px) */
+@media screen and (max-width: 767px) {
+    /* Smaller base font size for mobile */
+    html {
+        font-size: 14px; /* Reduces all rem values by 12.5% */
+    }
+    
+    /* Hero title gets more aggressive scaling on mobile */
+    .hero-content h1 {
+        font-size: clamp(1.8rem, 8vw, 2.5rem) !important;
+        line-height: 1.1;
+        text-align: center;
+    }
+    
+    /* Section headings scale better */
+    h2 {
+        font-size: clamp(1.6rem, 7vw, 2.2rem) !important;
+        margin-bottom: 1.5rem;
+    }
+    
+    h3 {
+        font-size: clamp(1.1rem, 4vw, 1.3rem) !important;
+    }
+    
+    /* Body text optimized for mobile reading */
+    p, li, span {
+        font-size: clamp(0.95rem, 3.5vw, 1.05rem) !important;
+        line-height: 1.7;
+    }
+    
+    /* Button text */
+    button, .btn, .cta-button {
+        font-size: clamp(0.9rem, 4vw, 1.1rem) !important;
+        padding: 14px 28px;
+    }
+    
+    /* Navigation adjustments */
+    .nav-menu a {
+        font-size: clamp(0.9rem, 3.5vw, 1rem);
+        padding: 0.5rem 0;
+    }
+    
+    /* Form elements */
+    input, textarea, select {
+        font-size: 16px !important; /* Prevents iOS zoom on focus */
+    }
+    
+    /* Card content */
+    .class-card h3 {
+        font-size: clamp(1rem, 4.5vw, 1.2rem) !important;
+    }
+    
+    .class-card p {
+        font-size: clamp(0.85rem, 3.2vw, 0.95rem) !important;
+    }
+}
+
+/* Large Mobile/Small Tablet (768px to 991px) */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    html {
+        font-size: 15px; /* Intermediate scaling */
+    }
+    
+    .hero-content h1 {
+        font-size: clamp(2.5rem, 6vw, 3rem) !important;
+    }
+    
+    h2 {
+        font-size: clamp(2.2rem, 5vw, 2.6rem) !important;
+    }
+}
+
+/* Desktop Fine-tuning (992px+) */
+@media screen and (min-width: 992px) {
+    html {
+        font-size: 16px; /* Standard desktop size */
+    }
+    
+    /* Ensure max sizes are respected on very large screens */
+    .hero-content h1 {
+        font-size: clamp(2.8rem, 4vw, 3.5rem) !important;
+        max-width: 100%;
+    }
+}
+
+/* Ultra-wide screens (1400px+) - prevent excessive scaling */
+@media screen and (min-width: 1400px) {
+    /* Cap the vw scaling to prevent huge fonts */
+    .hero-content h1 {
+        font-size: 3.2rem !important;
+    }
+    
+    h2 {
+        font-size: 2.8rem !important;
+    }
+    
+    p, li, span {
+        font-size: 1rem !important;
+    }
+}
+
+/* Accessibility: Respect user's font size preferences */
+@media screen and (prefers-reduced-motion: no-preference) {
+    html {
+        scroll-behavior: smooth;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    :root {
+        --text-primary: #000000;
+        --text-secondary: #333333;
+        --accent-primary: #006600;
+        --accent-secondary: #003300;
+    }
+}
+
+/* Responsive Design for Payment Methods */
+@media (min-width: 768px) {
+    .payment-methods {
+        flex-direction: row;
+        gap: 30px;
+    }
+    
+    .payment-method {
+        flex: 1;
+    }
+}
+
+@media (max-width: 767px) {
+    .payment-methods {
+        flex-direction: column;
+    }
+    
+    .apple-pay-button {
+        height: 45px;
+        font-size: 15px;
+    }
 }

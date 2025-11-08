@@ -859,56 +859,44 @@ let adminNotifications;
 // Load classes from localStorage with admin format
 function getAdminClassesFromStorage() {
     const stored = localStorage.getItem('cottageClassesAdmin');
+    let adminClasses;
+    
     if (stored) {
-        return JSON.parse(stored);
+        adminClasses = JSON.parse(stored);
+    } else {
+        // Load schedule from classes-schedule.js (loaded in HTML before this file)
+        // CLASSES_SCHEDULE is the SINGLE source of truth for all class data
+        adminClasses = CLASSES_SCHEDULE;
     }
     
-    // 2025 Culinary Class Schedule - Admin Format - EXACT from client specification
-    const defaultClasses = [
-        // Classic Italian American I - 9/20/25 6:00-9:00, 11/1/25 6:00-9:00
-        { id: 1, type: 'classic-italian-1', name: 'Classic Italian American I', date: '2025-09-20', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Sicilian Orange Salad • Three Cheese Garlic Bread • Tuscan White Bean Spread • Spaghetti with Fresh Pomodoro Sauce • Zabaglione' },
-        { id: 2, type: 'classic-italian-1', name: 'Classic Italian American I', date: '2025-11-01', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Sicilian Orange Salad • Three Cheese Garlic Bread • Tuscan White Bean Spread • Spaghetti with Fresh Pomodoro Sauce • Zabaglione' },
-        
-        // Classic Italian American II - 10/4/25 6:00-9:00, 11/8/25 6:00-9:00
-        { id: 3, type: 'classic-italian-2', name: 'Classic Italian American II', date: '2025-10-04', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Sausage Stuffed Mushrooms • Panzanella Salad • Homemade Pappardelle Alla Vodka • Chocolate Amaretto Soufflé' },
-        { id: 4, type: 'classic-italian-2', name: 'Classic Italian American II', date: '2025-11-08', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Sausage Stuffed Mushrooms • Panzanella Salad • Homemade Pappardelle Alla Vodka • Chocolate Amaretto Soufflé' },
-        
-        // Classic Italian American III - 10/10/25 7:00-10:00, 11/15 6:00-9:00
-        { id: 5, type: 'classic-italian-3', name: 'Classic Italian American III', date: '2025-10-10', time: '7:00-10:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Pasta Fagioli Soup • Chicken Francese • Mushroom Risotto • Fried Sicilian Zeppole' },
-        { id: 6, type: 'classic-italian-3', name: 'Classic Italian American III', date: '2025-11-15', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Pasta Fagioli Soup • Chicken Francese • Mushroom Risotto • Fried Sicilian Zeppole' },
-        
-        // Pasta Sauces - 10/18/25 6:00-9:00, 11/7/25 6:00-9:00
-        { id: 7, type: 'pasta-sauces', name: 'Pasta Sauces', date: '2025-10-18', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Marinara • Amatriciana • Broccoli Aglio Olio • Lemon Alfredo • Tiramisu' },
-        { id: 8, type: 'pasta-sauces', name: 'Pasta Sauces', date: '2025-11-07', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Marinara • Amatriciana • Broccoli Aglio Olio • Lemon Alfredo • Tiramisu' },
-        
-        // Fresh Scratch Pasta - 9/26/25 6:00-9:00, 11/22/25 6:00-9:00
-        { id: 9, type: 'fresh-pasta', name: 'Fresh Scratch Pasta', date: '2025-09-26', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Gnocchi • Fettucine • Pappardelle • Tortellini • Fresh Pomodoro Sauce • Cannoli' },
-        { id: 10, type: 'fresh-pasta', name: 'Fresh Scratch Pasta', date: '2025-11-22', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Gnocchi • Fettucine • Pappardelle • Tortellini • Fresh Pomodoro Sauce • Cannoli' },
-        
-        // Thanksgiving Sides - 11/14/25 7:00-10:00, 11/21 7:00-9:00
-        { id: 11, type: 'thanksgiving', name: 'Thanksgiving Sides', date: '2025-11-14', time: '7:00-10:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Mascarpone Chive Mashed Potatoes • Bacon Balsamic Brussel Sprouts • Parker House Rolls • Butternut Squash Pecan Tarts • Amaretto Seared Mushrooms' },
-        { id: 12, type: 'thanksgiving', name: 'Thanksgiving Sides', date: '2025-11-21', time: '7:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Mascarpone Chive Mashed Potatoes • Bacon Balsamic Brussel Sprouts • Parker House Rolls • Butternut Squash Pecan Tarts • Amaretto Seared Mushrooms' },
-        
-        // Holiday Appetizers - 12/5/25 7:00-10:00, 12/13/25 7:00-10:00
-        { id: 13, type: 'holiday-appetizers', name: 'Holiday Appetizers', date: '2025-12-05', time: '7:00-10:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Miniature Beef Wellingtons • Sausage Mascarpone Stuffed Mushrooms • Fresh Hummus and Parmesan Pita Chips • Miniature Arancini Rice Balls • Sausage Spinach Pie' },
-        { id: 14, type: 'holiday-appetizers', name: 'Holiday Appetizers', date: '2025-12-13', time: '7:00-10:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Miniature Beef Wellingtons • Sausage Mascarpone Stuffed Mushrooms • Fresh Hummus and Parmesan Pita Chips • Miniature Arancini Rice Balls • Sausage Spinach Pie' },
-        
-        // Holiday Chocolate Desserts - 11/28/25 6:00-9:00, 12/6/25 6:00-9:00
-        { id: 15, type: 'holiday-desserts', name: 'Holiday Chocolate Desserts', date: '2025-11-28', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Chocolate Cranberry Paté • Chocolate Truffles • Christmas Blondies • Chocolate Chip Cookie Stuffed Fudge Brownies' },
-        { id: 16, type: 'holiday-desserts', name: 'Holiday Chocolate Desserts', date: '2025-12-06', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Chocolate Cranberry Paté • Chocolate Truffles • Christmas Blondies • Chocolate Chip Cookie Stuffed Fudge Brownies' },
-        
-        // Easy Breads - 9/27/25 1:00-4:00, 10/25/25 1:00-4:00, 12/12/25 7:00-10:00
-        { id: 17, type: 'easy-breads', name: 'Easy Breads', date: '2025-09-27', time: '1:00-4:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Focaccia • Rustic French Boule • Ciabatta • Brazilian Cheese Rolls • Homemade Butter' },
-        { id: 18, type: 'easy-breads', name: 'Easy Breads', date: '2025-10-25', time: '1:00-4:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Focaccia • Rustic French Boule • Ciabatta • Brazilian Cheese Rolls • Homemade Butter' },
-        { id: 19, type: 'easy-breads', name: 'Easy Breads', date: '2025-12-12', time: '7:00-10:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Focaccia • Rustic French Boule • Ciabatta • Brazilian Cheese Rolls • Homemade Butter' },
-        
-        // International Winter Soups - 10/24/25 7:00-10:00, 12/20/25 6:00-9:00
-        { id: 20, type: 'winter-soups', name: 'International Winter Soups', date: '2025-10-24', time: '7:00-10:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Chicken Matzoh Ball • Pasta Fagioli • Sopa De Pollo (Mexican Chicken Soup) • Hungarian Goulyas Soup • Beef Barley' },
-        { id: 21, type: 'winter-soups', name: 'International Winter Soups', date: '2025-12-20', time: '6:00-9:00 PM', maxSeats: 8, bookedSeats: 0, price: 85, description: 'Chicken Matzoh Ball • Pasta Fagioli • Sopa De Pollo (Mexican Chicken Soup) • Hungarian Goulyas Soup • Beef Barley' }
-    ];
+    // CRITICAL FIX: Sync bookedSeats with actual bookings from cottageBookings
+    const existingBookings = JSON.parse(localStorage.getItem('cottageBookings') || '[]');
     
-    saveAdminClassesToStorage(defaultClasses);
-    return defaultClasses;
+    // Calculate actual booked seats for each class
+    adminClasses.forEach(adminClass => {
+        const classBookings = existingBookings.filter(booking => {
+            const bookingDate = new Date(booking.date).toISOString().split('T')[0];
+            const classDate = new Date(adminClass.date).toISOString().split('T')[0];
+            
+            // Match by date and class name/type
+            const dateMatches = bookingDate === classDate;
+            const classMatches = booking.className === adminClass.name || 
+                                 booking.className === adminClass.type ||
+                                 adminClass.name.toLowerCase().includes(booking.className.toLowerCase());
+            
+            return dateMatches && classMatches && booking.status !== 'cancelled';
+        });
+        
+        // Sum up all seats from matching bookings
+        const totalBookedSeats = classBookings.reduce((sum, booking) => sum + (booking.seats || 0), 0);
+        adminClass.bookedSeats = totalBookedSeats;
+        
+        console.log(`🔄 Class "${adminClass.name}" on ${adminClass.date}: ${totalBookedSeats} booked seats from ${classBookings.length} bookings`);
+    });
+    
+    // Save the corrected data
+    saveAdminClassesToStorage(adminClasses);
+    return adminClasses;
 }
 
 function saveAdminClassesToStorage(adminClasses) {
@@ -1711,3 +1699,342 @@ function refreshChat() {
 }
 
 window.triggerCalendarUpdate = triggerCalendarUpdate;
+
+// ENHANCED TESTING FUNCTION: Comprehensive booking capacity system verification
+function testBookingCapacitySystem() {
+    console.log('🧪 TESTING: Enhanced booking capacity system...');
+    
+    // Clear existing data for clean test
+    localStorage.removeItem('cottageClasses');
+    localStorage.removeItem('cottageClassesAdmin');
+    localStorage.removeItem('cottageBookings');
+    
+    // Test 1: Load initial classes
+    console.log('\n📋 Test 1: Loading initial classes...');
+    const adminClasses = getAdminClassesFromStorage();
+    console.log('✅ Admin classes loaded:', adminClasses.length);
+    
+    // Test 2: Create multiple test bookings for December 4th (user's specific issue)
+    console.log('\n📋 Test 2: Creating bookings for December 4th (user reported issue)...');
+    
+    // Find December 4th class (should be Holiday Chocolate Desserts on 12/6, but let's test 12/5 Holiday Appetizers)
+    const testBookings = [
+        {
+            id: 'test-booking-1-' + Date.now(),
+            date: '2025-12-05',
+            customerName: 'Test Customer 1',
+            email: 'test1@example.com',
+            phone: '555-1234',
+            className: 'Holiday Appetizers',
+            seats: 2,
+            dietary: '',
+            status: 'paid',
+            bookingTime: new Date().toISOString(),
+            payment: { paymentStatus: 'completed', paymentAmount: '170.00' }
+        },
+        {
+            id: 'test-booking-2-' + Date.now(),
+            date: '2025-12-05',
+            customerName: 'Test Customer 2',
+            email: 'test2@example.com',
+            phone: '555-5678',
+            className: 'Holiday Appetizers',
+            seats: 1,
+            dietary: '',
+            status: 'paid',
+            bookingTime: new Date().toISOString(),
+            payment: { paymentStatus: 'completed', paymentAmount: '85.00' }
+        }
+    ];
+    
+    localStorage.setItem('cottageBookings', JSON.stringify(testBookings));
+    console.log('✅ Created 2 test bookings: 2 seats + 1 seat = 3 total seats for Dec 5th Holiday Appetizers');
+    
+    // Test 3: Reload admin classes and verify booking sync
+    console.log('\n📋 Test 3: Verifying admin class booking sync...');
+    const updatedAdminClasses = getAdminClassesFromStorage();
+    const dec5AdminClass = updatedAdminClasses.find(cls => cls.date === '2025-12-05' && cls.name === 'Holiday Appetizers');
+    
+    if (dec5AdminClass) {
+        console.log(`✅ Admin class found: ${dec5AdminClass.name} on ${dec5AdminClass.date}`);
+        console.log(`   - Max seats: ${dec5AdminClass.maxSeats}`);
+        console.log(`   - Booked seats: ${dec5AdminClass.bookedSeats}`);
+        console.log(`   - Available seats: ${dec5AdminClass.maxSeats - dec5AdminClass.bookedSeats}`);
+        
+        if (dec5AdminClass.bookedSeats === 3) {
+            console.log('✅ Admin booking sync: PASSED');
+        } else {
+            console.log(`❌ Admin booking sync: FAILED - Expected 3 booked seats, got ${dec5AdminClass.bookedSeats}`);
+        }
+    } else {
+        console.log('❌ Admin class not found!');
+    }
+    
+    // Test 4: Check customer-facing class sync
+    console.log('\n📋 Test 4: Verifying customer class availability sync...');
+    const customerClasses = JSON.parse(localStorage.getItem('cottageClasses') || '[]');
+    const dec5CustomerClass = customerClasses.find(cls => cls.date === '2025-12-05' && cls.class === 'Holiday Appetizers');
+    
+    if (dec5CustomerClass) {
+        console.log(`✅ Customer class found: ${dec5CustomerClass.class} on ${dec5CustomerClass.date}`);
+        console.log(`   - Available seats: ${dec5CustomerClass.seats}`);
+        
+        if (dec5CustomerClass.seats === 5) { // 8 max - 3 booked = 5 available
+            console.log('✅ Customer availability sync: PASSED');
+        } else {
+            console.log(`❌ Customer availability sync: FAILED - Expected 5 available seats, got ${dec5CustomerClass.seats}`);
+        }
+    } else {
+        console.log('❌ Customer class not found!');
+    }
+    
+    // Test 5: Final verification
+    console.log('\n📋 Test 5: Final system verification...');
+    const allTestsPassed = 
+        dec5AdminClass && dec5AdminClass.bookedSeats === 3 &&
+        dec5CustomerClass && dec5CustomerClass.seats === 5;
+    
+    if (allTestsPassed) {
+        console.log('🎉 SUCCESS: All booking capacity tests PASSED!');
+        console.log('   ✅ Admin panel shows correct booked seats');
+        console.log('   ✅ Customer calendar shows correct available seats');
+        console.log('   ✅ Real-time sync is working properly');
+        return true;
+    } else {
+        console.log('❌ FAILED: Some tests failed. Check logs above for details.');
+        return false;
+    }
+}
+
+// FINAL COMPREHENSIVE VERIFICATION FUNCTION
+function finalSystemVerification() {
+    console.log('🔬 FINAL COMPREHENSIVE SYSTEM VERIFICATION...');
+    console.log('================================================');
+    
+    // Step 1: Clear all data for clean test
+    console.log('\n🧹 Step 1: Clearing all existing data...');
+    localStorage.removeItem('cottageClasses');
+    localStorage.removeItem('cottageClassesAdmin');
+    localStorage.removeItem('cottageBookings');
+    console.log('✅ All data cleared');
+    
+    // Step 2: Load initial admin classes
+    console.log('\n📋 Step 2: Loading initial admin classes...');
+    const adminClasses = getAdminClassesFromStorage();
+    console.log(`✅ Loaded ${adminClasses.length} admin classes`);
+    
+    // Step 3: Load customer classes and verify sync
+    console.log('\n🛒 Step 3: Loading customer classes and verifying sync...');
+    const customerClasses = JSON.parse(localStorage.getItem('cottageClasses') || '[]');
+    console.log(`✅ Loaded ${customerClasses.length} customer classes`);
+    
+    // Step 4: Create realistic test bookings
+    console.log('\n📝 Step 4: Creating realistic test bookings...');
+    const testBookings = [
+        {
+            id: 'booking-1-' + Date.now(),
+            date: '2025-12-05',
+            customerName: 'John Smith',
+            email: 'john@example.com',
+            phone: '555-0001',
+            className: 'Holiday Appetizers',
+            seats: 2,
+            dietary: 'No nuts',
+            status: 'paid',
+            bookingTime: new Date().toISOString(),
+            payment: { paymentStatus: 'completed', paymentAmount: '170.00' }
+        },
+        {
+            id: 'booking-2-' + Date.now() + 1,
+            date: '2025-12-05',
+            customerName: 'Jane Doe',
+            email: 'jane@example.com',
+            phone: '555-0002',
+            className: 'Holiday Appetizers',
+            seats: 1,
+            dietary: '',
+            status: 'paid',
+            bookingTime: new Date().toISOString(),
+            payment: { paymentStatus: 'completed', paymentAmount: '85.00' }
+        },
+        {
+            id: 'booking-3-' + Date.now() + 2,
+            date: '2025-12-06',
+            customerName: 'Bob Wilson',
+            email: 'bob@example.com',
+            phone: '555-0003',
+            className: 'Holiday Chocolate Desserts',
+            seats: 3,
+            dietary: 'Vegetarian',
+            status: 'paid',
+            bookingTime: new Date().toISOString(),
+            payment: { paymentStatus: 'completed', paymentAmount: '255.00' }
+        }
+    ];
+    
+    localStorage.setItem('cottageBookings', JSON.stringify(testBookings));
+    console.log(`✅ Created ${testBookings.length} test bookings:`);
+    testBookings.forEach(booking => {
+        console.log(`   - ${booking.customerName}: ${booking.seats} seats for ${booking.className} on ${booking.date}`);
+    });
+    
+    // Step 5: Reload admin classes and verify booking integration
+    console.log('\n🔄 Step 5: Reloading admin classes and verifying booking integration...');
+    const updatedAdminClasses = getAdminClassesFromStorage();
+    
+    const dec5AdminClass = updatedAdminClasses.find(cls => cls.date === '2025-12-05' && cls.name === 'Holiday Appetizers');
+    const dec6AdminClass = updatedAdminClasses.find(cls => cls.date === '2025-12-06' && cls.name === 'Holiday Chocolate Desserts');
+    
+    console.log('\n📊 Admin Class Verification:');
+    if (dec5AdminClass) {
+        console.log(`✅ Dec 5 Holiday Appetizers: ${dec5AdminClass.bookedSeats}/8 seats booked (${8 - dec5AdminClass.bookedSeats} available)`);
+        if (dec5AdminClass.bookedSeats !== 3) {
+            console.log(`❌ ERROR: Expected 3 booked seats, got ${dec5AdminClass.bookedSeats}`);
+        }
+    } else {
+        console.log('❌ ERROR: Dec 5 Holiday Appetizers class not found');
+    }
+    
+    if (dec6AdminClass) {
+        console.log(`✅ Dec 6 Holiday Chocolate Desserts: ${dec6AdminClass.bookedSeats}/8 seats booked (${8 - dec6AdminClass.bookedSeats} available)`);
+        if (dec6AdminClass.bookedSeats !== 3) {
+            console.log(`❌ ERROR: Expected 3 booked seats, got ${dec6AdminClass.bookedSeats}`);
+        }
+    } else {
+        console.log('❌ ERROR: Dec 6 Holiday Chocolate Desserts class not found');
+    }
+    
+    // Step 6: Verify customer class availability sync
+    console.log('\n🛒 Step 6: Verifying customer class availability sync...');
+    const updatedCustomerClasses = JSON.parse(localStorage.getItem('cottageClasses') || '[]');
+    
+    const dec5CustomerClass = updatedCustomerClasses.find(cls => cls.date === '2025-12-05' && cls.class === 'Holiday Appetizers');
+    const dec6CustomerClass = updatedCustomerClasses.find(cls => cls.date === '2025-12-06' && cls.class === 'Holiday Chocolate Desserts');
+    
+    console.log('\n🎯 Customer Class Verification:');
+    if (dec5CustomerClass) {
+        console.log(`✅ Dec 5 Holiday Appetizers: ${dec5CustomerClass.seats} seats available`);
+        if (dec5CustomerClass.seats !== 5) {
+            console.log(`❌ ERROR: Expected 5 available seats, got ${dec5CustomerClass.seats}`);
+        }
+    } else {
+        console.log('❌ ERROR: Dec 5 Holiday Appetizers customer class not found');
+    }
+    
+    if (dec6CustomerClass) {
+        console.log(`✅ Dec 6 Holiday Chocolate Desserts: ${dec6CustomerClass.seats} seats available`);
+        if (dec6CustomerClass.seats !== 5) {
+            console.log(`❌ ERROR: Expected 5 available seats, got ${dec6CustomerClass.seats}`);
+        }
+    } else {
+        console.log('❌ ERROR: Dec 6 Holiday Chocolate Desserts customer class not found');
+    }
+    
+    // Step 7: Final system health check
+    console.log('\n🏥 Step 7: Final system health check...');
+    const allTestsPassed = 
+        dec5AdminClass && dec5AdminClass.bookedSeats === 3 &&
+        dec6AdminClass && dec6AdminClass.bookedSeats === 3 &&
+        dec5CustomerClass && dec5CustomerClass.seats === 5 &&
+        dec6CustomerClass && dec6CustomerClass.seats === 5;
+    
+    console.log('\n🎯 FINAL RESULTS:');
+    console.log('================');
+    if (allTestsPassed) {
+        console.log('🎉 ALL TESTS PASSED! The booking capacity system is PERFECT!');
+        console.log('✅ Admin panel correctly tracks booked seats');
+        console.log('✅ Customer calendar correctly shows available seats');
+        console.log('✅ Real-time synchronization works flawlessly');
+        console.log('✅ Multiple bookings are handled correctly');
+        console.log('✅ Different classes maintain separate capacity');
+        console.log('\n🚀 SYSTEM STATUS: FULLY OPERATIONAL');
+    } else {
+        console.log('❌ SOME TESTS FAILED - System needs attention');
+        console.log('Check the detailed logs above for specific issues');
+    }
+    
+    return allTestsPassed;
+}
+
+// PAYPAL + BOOKING INTEGRATION TEST
+function testPayPalBookingIntegration() {
+    console.log('🔬 TESTING PAYPAL + BOOKING INTEGRATION...');
+    console.log('===========================================');
+    
+    // Clear data for clean test
+    localStorage.removeItem('cottageClasses');
+    localStorage.removeItem('cottageClassesAdmin');
+    localStorage.removeItem('cottageBookings');
+    sessionStorage.removeItem('pendingBooking');
+    console.log('✅ All data cleared');
+    
+    // Load fresh classes
+    const adminClasses = getAdminClassesFromStorage();
+    const customerClasses = getClassesFromStorage();
+    console.log(`✅ Admin: ${adminClasses.length}, Customer: ${customerClasses.length} classes loaded`);
+    
+    // Test December 5th Holiday Appetizers
+    const dec5Admin = adminClasses.find(cls => cls.date === '2025-12-05' && cls.name.includes('Holiday Appetizers'));
+    const dec5Customer = customerClasses.find(cls => cls.date === '2025-12-05' && cls.class.includes('Holiday Appetizers'));
+    
+    if (dec5Admin && dec5Customer) {
+        console.log(`✅ Found Dec 5th class - Admin: ${dec5Admin.maxSeats - dec5Admin.bookedSeats} available, Customer: ${dec5Customer.seats} available`);
+        
+        // Simulate PayPal booking
+        const mockBookingData = {
+            bookingId: Date.now(),
+            className: 'holiday-appetizers',
+            classDate: '2025-12-05',
+            seats: '2',
+            name: 'Test Customer',
+            email: 'test@example.com',
+            phone: '555-1234',
+            dietary: '',
+            totalAmount: 170
+        };
+        
+        sessionStorage.setItem('pendingBooking', JSON.stringify(mockBookingData));
+        
+        // Simulate PayPal success
+        const mockPayPalOrder = {
+            id: 'PAYPAL_ORDER_' + Date.now(),
+            purchase_units: [{ amount: { value: '170.00' } }],
+            payer: { payer_id: 'PAYER123', email_address: 'test@example.com' }
+        };
+        
+        if (typeof handlePaymentSuccess === 'function') {
+            handlePaymentSuccess(mockPayPalOrder);
+            
+            // Verify results
+            const savedBookings = JSON.parse(localStorage.getItem('cottageBookings') || '[]');
+            const ourBooking = savedBookings.find(b => b.id == mockBookingData.bookingId);
+            
+            const updatedAdminClasses = JSON.parse(localStorage.getItem('cottageClassesAdmin') || '[]');
+            const updatedDec5Admin = updatedAdminClasses.find(cls => cls.date === '2025-12-05' && cls.name.includes('Holiday Appetizers'));
+            
+            const updatedCustomerClasses = JSON.parse(localStorage.getItem('cottageClasses') || '[]');
+            const updatedDec5Customer = updatedCustomerClasses.find(cls => cls.date === '2025-12-05' && cls.class.includes('Holiday Appetizers'));
+            
+            console.log(`✅ Results: Booking saved: ${ourBooking ? 'YES' : 'NO'}, Admin booked: ${updatedDec5Admin?.bookedSeats || 0}, Customer available: ${updatedDec5Customer?.seats || 0}`);
+            
+            if (ourBooking && updatedDec5Admin?.bookedSeats === 2 && updatedDec5Customer?.seats === 6) {
+                console.log('🎉 PAYPAL INTEGRATION TEST PASSED!');
+                return true;
+            } else {
+                console.log('❌ PAYPAL INTEGRATION TEST FAILED!');
+                return false;
+            }
+        } else {
+            console.log('❌ handlePaymentSuccess function not found!');
+            return false;
+        }
+    } else {
+        console.log('❌ December 5th Holiday Appetizers class not found!');
+        return false;
+    }
+}
+
+// Make all test functions available globally for manual testing
+window.testBookingCapacitySystem = testBookingCapacitySystem;
+window.finalSystemVerification = finalSystemVerification;
+window.testPayPalBookingIntegration = testPayPalBookingIntegration;

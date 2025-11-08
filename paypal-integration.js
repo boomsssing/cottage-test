@@ -66,6 +66,16 @@ class PayPalIntegration {
         const totalAmount = bookingData.totalAmount;
         const className = bookingData.className;
         const seats = bookingData.seats;
+        const isCustomAmount = bookingData.isCustomAmount;
+        const customAmount = bookingData.customAmount;
+
+        // Create description based on payment type
+        let description;
+        if (isCustomAmount) {
+            description = `${className} - Custom Amount ($${customAmount.toFixed(2)})`;
+        } else {
+            description = `${className} - ${seats} seat(s)`;
+        }
 
         return paypal.actions.order.create({
             purchase_units: [{
@@ -73,7 +83,7 @@ class PayPalIntegration {
                     value: totalAmount.toFixed(2),
                     currency_code: this.currency
                 },
-                description: `${className} - ${seats} seat(s)`,
+                description: description,
                 custom_id: bookingData.bookingId,
                 soft_descriptor: 'Cottage Cooking'
             }],
@@ -119,13 +129,19 @@ class PayPalIntegration {
             payerEmail: order.payer.email_address
         };
 
-        // Call the main payment success handler
+        // Call the main payment success handler - this handles all booking logic
+        console.log('🚨 PAYPAL: About to call handlePaymentSuccess function');
+        console.log('🚨 PAYPAL: handlePaymentSuccess function exists:', typeof handlePaymentSuccess === 'function');
+        
         if (typeof handlePaymentSuccess === 'function') {
+            console.log('🚨 PAYPAL: Calling handlePaymentSuccess with order data:', order);
             handlePaymentSuccess(order);
+            console.log('🚨 PAYPAL: handlePaymentSuccess completed');
+        } else {
+            console.error('❌ PAYPAL ERROR: handlePaymentSuccess function not found!');
         }
-
-        // Save payment info to booking
-        this.updateBookingWithPayment(bookingData.bookingId, paymentInfo);
+        
+        // Note: handlePaymentSuccess already saves the booking, so we don't duplicate it here
 
         // Update user dashboard
         this.updateUserDashboard(bookingData, paymentInfo);
@@ -202,6 +218,16 @@ class PayPalIntegration {
         const form = document.getElementById('bookingForm');
         if (form) {
             const formData = new FormData(form);
+            const useCustomAmount = document.getElementById('useCustomAmount').checked;
+            let totalAmount;
+            
+            if (useCustomAmount) {
+                const customAmount = parseFloat(document.getElementById('customAmount').value) || 0;
+                totalAmount = customAmount;
+            } else {
+                totalAmount = 85 * parseInt(formData.get('seats'));
+            }
+            
             return {
                 bookingId: Date.now(),
                 className: formData.get('className'),
@@ -211,7 +237,9 @@ class PayPalIntegration {
                 email: formData.get('email'),
                 phone: formData.get('phone'),
                 dietary: formData.get('dietary'),
-                totalAmount: 85 * parseInt(formData.get('seats'))
+                totalAmount: totalAmount,
+                isCustomAmount: useCustomAmount,
+                customAmount: useCustomAmount ? parseFloat(document.getElementById('customAmount').value) : null
             };
         }
 
@@ -226,7 +254,7 @@ class PayPalIntegration {
         const errorMessage = document.getElementById('payment-error-message');
         if (errorMessage) {
             errorMessage.textContent = 'Payment failed. Please try again or contact support.';
-            errorMessage.style.display = 'block';
+            errorMessage.classList.remove('payment-message-hidden');
         }
 
         // Log error for admin
@@ -241,21 +269,21 @@ class PayPalIntegration {
         const cancelMessage = document.getElementById('payment-cancel-message');
         if (cancelMessage) {
             cancelMessage.textContent = 'Payment was cancelled. You can try again or contact us for assistance.';
-            cancelMessage.style.display = 'block';
+            cancelMessage.classList.remove('payment-message-hidden');
         }
     }
 
     showPaymentProcessing() {
         const processingDiv = document.getElementById('payment-processing');
         if (processingDiv) {
-            processingDiv.style.display = 'block';
+            processingDiv.classList.remove('payment-processing-hidden');
         }
     }
 
     hidePaymentProcessing() {
         const processingDiv = document.getElementById('payment-processing');
         if (processingDiv) {
-            processingDiv.style.display = 'none';
+            processingDiv.classList.add('payment-processing-hidden');
         }
     }
 
@@ -297,7 +325,13 @@ class PayPalIntegration {
         const targetClass = classes.find(cls => {
             const clsDate = new Date(cls.date).toISOString().split('T')[0];
             const bookingDate = new Date(bookingData.classDate).toISOString().split('T')[0];
-            return clsDate === bookingDate && cls.class.toLowerCase().includes(bookingData.className.toLowerCase());
+            const dateMatches = clsDate === bookingDate;
+            
+            // Use exact class name matching (similar to script.js)
+            const classMatches = cls.class === bookingData.className || 
+                               cls.class.toLowerCase().includes(bookingData.className.toLowerCase());
+            
+            return dateMatches && classMatches;
         });
 
         if (!targetClass) {

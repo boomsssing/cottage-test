@@ -296,6 +296,7 @@
         </div>
     </div>
 
+    <script src="script.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Get payment success data from session storage
@@ -324,6 +325,14 @@
                     hour: '2-digit',
                     minute: '2-digit'
                 });
+                
+                // CRITICAL FIX: Call the main payment success handler to update seat counts
+                if (typeof handlePaymentSuccess === 'function') {
+                    console.log('🚨 PAYMENT SUCCESS: Calling main handlePaymentSuccess function');
+                    handlePaymentSuccess(paymentData);
+                } else {
+                    console.error('❌ ERROR: handlePaymentSuccess function not found!');
+                }
                 
                 // Clear session storage
                 sessionStorage.removeItem('paymentSuccess');

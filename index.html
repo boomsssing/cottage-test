@@ -42,7 +42,7 @@
                 <button class="cta-button" onclick="scrollToSection('calendar')">Book a Class</button>
             </div>
                           <div class="hero-image">
-                <img src="IMG_3723.jpg" alt="Beautiful Cottage Kitchen" class="hero-kitchen-image" />
+                <img src="IMG_3723.jpg" alt="Beautiful Cottage Kitchen" class="hero-kitchen-image" id="heroImage" />
               </div>
         </section>
 
@@ -246,12 +246,28 @@
                             <!-- Payment Section -->
                             <div class="payment-section">
                                 <h4>Payment Information</h4>
+                                
+                                <!-- Custom Amount Option -->
+                                <div class="custom-amount-section">
+                                    <div class="form-group">
+                                        <label>
+                                            <input type="checkbox" id="useCustomAmount" onchange="toggleCustomAmount()">
+                                            Pay a custom amount (instead of per-seat pricing)
+                                        </label>
+                                    </div>
+                                    <div class="form-group custom-amount-input custom-amount-hidden" id="customAmountGroup">
+                                        <label for="customAmount">Custom Amount ($):</label>
+                                        <input type="number" id="customAmount" min="1" step="0.01" placeholder="Enter amount">
+                                        <small class="custom-amount-note">Enter any amount you'd like to pay for this class</small>
+                                    </div>
+                                </div>
+                                
                                 <div class="payment-summary">
-                                    <div class="payment-row">
+                                    <div class="payment-row" id="standardPricingRow">
                                         <span>Price per seat:</span>
                                         <span>$85.00</span>
                                     </div>
-                                    <div class="payment-row">
+                                    <div class="payment-row" id="seatsRow">
                                         <span>Number of seats:</span>
                                         <span id="paymentSeats">0</span>
                                     </div>
@@ -261,18 +277,37 @@
                                     </div>
                                 </div>
                                 
-                                <!-- PayPal Button Container -->
-                                <div id="paypal-button-container" style="margin-top: 20px;"></div>
+                                <!-- Payment Methods -->
+                                <div class="payment-methods">
+                                    <!-- PayPal Button Container -->
+                                    <div class="payment-method">
+                                        <h5>Pay with PayPal</h5>
+                                        <div id="paypal-button-container"></div>
+                                    </div>
+                                    
+                                    <!-- Apple Pay Button Container -->
+                                    <div class="payment-method">
+                                        <h5>Pay with Apple Pay</h5>
+                                        <div id="apple-pay-button-container">
+                                            <button type="button" id="apple-pay-button" class="apple-pay-button apple-pay-hidden">
+                                                <span class="apple-pay-text">Pay with Apple Pay</span>
+                                            </button>
+                                            <div id="apple-pay-unavailable" class="apple-pay-unavailable apple-pay-hidden">
+                                                <p>Apple Pay is not available on this device</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 
                                 <!-- Payment Processing Indicator -->
-                                <div id="payment-processing" style="display: none; text-align: center; margin-top: 20px;">
+                                <div id="payment-processing" class="payment-processing-hidden">
                                     <div class="processing-spinner"></div>
                                     <p>Processing payment...</p>
                                 </div>
                                 
                                 <!-- Payment Messages -->
-                                <div id="payment-error-message" style="display: none; color: #dc3545; margin-top: 10px; padding: 10px; background: #f8d7da; border-radius: 5px;"></div>
-                                <div id="payment-cancel-message" style="display: none; color: #856404; margin-top: 10px; padding: 10px; background: #fff3cd; border-radius: 5px;"></div>
+                                <div id="payment-error-message" class="payment-message payment-error payment-message-hidden"></div>
+                                <div id="payment-cancel-message" class="payment-message payment-cancel payment-message-hidden"></div>
                             </div>
                             
                             <button type="submit" class="submit-button" id="reserveButton">Reserve My Seat</button>
@@ -801,6 +836,7 @@
         </div>
     </div>
 
+    <script src="classes-schedule.js"></script>
     <script src="script.js"></script>
     <script src="paypal-integration.js"></script>
 </body>
