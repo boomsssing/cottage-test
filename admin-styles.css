@@ -1,4 +1,30 @@
-/* Admin Panel Specific Styles */
+/* Admin Panel Specific Styles - Fluid Typography */
+
+/* Import fluid typography variables from main styles */
+:root {
+/* Fluid Typography Variables */
+--font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+--font-size-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
+--font-size-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+--font-size-md: clamp(1.125rem, 1rem + 0.625vw, 1.25rem);
+--font-size-lg: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+--font-size-xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+--font-size-2xl: clamp(1.875rem, 1.6rem + 1.375vw, 2.5rem);
+
+/* Responsive Spacing */
+--space-xs: clamp(0.5rem, 0.4rem + 0.5vw, 0.75rem);
+--space-sm: clamp(0.75rem, 0.6rem + 0.75vw, 1rem);
+--space-md: clamp(1rem, 0.8rem + 1vw, 1.5rem);
+--space-lg: clamp(1.5rem, 1.2rem + 1.5vw, 2.5rem);
+--space-xl: clamp(2rem, 1.6rem + 2vw, 3.5rem);
+}
+
+/* Responsive Base Styles */
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
 
 .admin-section {
     padding: 40px 0;
@@ -27,21 +53,21 @@
 
 .stat-card h3 {
     color: #666;
-    font-size: 0.7rem;
-    margin-bottom: 10px;
+    font-size: var(--font-size-xs);
+    margin-bottom: var(--space-xs);
     font-weight: 500;
 }
 
 .stat-number {
-    font-size: 1.75rem;
+    font-size: var(--font-size-xl);
     font-weight: 700;
     color: #2c5530;
-    margin-bottom: 7px;
+    margin-bottom: var(--space-xs);
 }
 
 .stat-card p {
     color: #888;
-    font-size: 0.63rem;
+    font-size: var(--font-size-xs);
 }
 
 .admin-card {
@@ -72,10 +98,10 @@
 .admin-button {
     background: #7a9a4d;
     color: white;
-    padding: 8px 17px;
+    padding: var(--space-xs) var(--space-sm);
     border: none;
     border-radius: 5px;
-    font-size: 0.7rem;
+    font-size: var(--font-size-xs);
     font-weight: 600;
     cursor: pointer;
     transition: background 0.3s ease;
@@ -105,7 +131,7 @@
 }
 
 #currentMonth {
-    font-size: 0.84rem;
+    font-size: var(--font-size-sm);
     font-weight: 600;
     color: #2c5530;
 }
@@ -140,17 +166,17 @@
     font-weight: 600;
     color: #2c5530;
     margin-bottom: 7px;
-    font-size: 0.7rem;
+    font-size: var(--font-size-xs);
 }
 
 .schedule-class {
-    font-size: 0.63rem;
+    font-size: var(--font-size-xs);
     color: #666;
     margin-bottom: 3px;
 }
 
 .schedule-seats {
-    font-size: 0.56rem;
+    font-size: var(--font-size-xs);
     color: #888;
 }
 
@@ -166,10 +192,10 @@
 
 .bookings-table th,
 .bookings-table td {
-    padding: 8px;
+    padding: var(--space-xs);
     text-align: left;
     border-bottom: 1px solid #e0e0e0;
-    font-size: 0.7rem;
+    font-size: var(--font-size-xs);
 }
 
 .bookings-table th {
@@ -185,7 +211,7 @@
 .status {
     padding: 4px 12px;
     border-radius: 20px;
-    font-size: 0.8rem;
+    font-size: var(--font-size-xs);
     font-weight: 600;
     text-transform: uppercase;
 }
@@ -209,9 +235,9 @@
     background: #7a9a4d;
     color: white;
     border: none;
-    padding: 4px 8px;
+    padding: var(--space-xs) var(--space-xs);
     border-radius: 4px;
-    font-size: 0.56rem;
+    font-size: var(--font-size-xs);
     cursor: pointer;
     margin-right: 3px;
     transition: background 0.3s ease;

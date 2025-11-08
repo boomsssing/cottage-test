@@ -1,5 +1,5 @@
 /* Logo styles consolidated - removed duplicate rule */
-/* Enhanced Color Palette */
+/* Enhanced Color Palette + Fluid Typography */
 :root {
 --bg-primary: #fefefe;
 --bg-secondary: #f8faf8;
@@ -24,11 +24,40 @@
 --hero-pattern: radial-gradient(circle at 20% 80%, rgba(124, 154, 77, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, rgba(212, 165, 116, 0.08) 0%, transparent 50%),
                 radial-gradient(circle at 40% 40%, rgba(44, 85, 48, 0.05) 0%, transparent 50%);
+
+/* Fluid Typography Variables */
+--font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+--font-size-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
+--font-size-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+--font-size-md: clamp(1.125rem, 1rem + 0.625vw, 1.25rem);
+--font-size-lg: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+--font-size-xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+--font-size-2xl: clamp(1.875rem, 1.6rem + 1.375vw, 2.5rem);
+--font-size-3xl: clamp(2.25rem, 1.9rem + 1.75vw, 3.2rem);
+--font-size-4xl: clamp(2.625rem, 2.2rem + 2.125vw, 4rem);
+
+/* Responsive Spacing */
+--space-xs: clamp(0.5rem, 0.4rem + 0.5vw, 0.75rem);
+--space-sm: clamp(0.75rem, 0.6rem + 0.75vw, 1rem);
+--space-md: clamp(1rem, 0.8rem + 1vw, 1.5rem);
+--space-lg: clamp(1.5rem, 1.2rem + 1.5vw, 2.5rem);
+--space-xl: clamp(2rem, 1.6rem + 2vw, 3.5rem);
+--space-2xl: clamp(3rem, 2.4rem + 3vw, 5rem);
+--space-3xl: clamp(4rem, 3.2rem + 4vw, 6rem);
+}
+
+/* Responsive Text Adjustments */
+html {
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
 font-family: 'Open Sans', sans-serif;
-line-height: 1.6;
+font-size: var(--font-size-base);
+line-height: clamp(1.5, 1.4 + 0.5vw, 1.7);
 color: var(--text-primary);
 background: var(--bg-primary);
 background-image: 
@@ -63,32 +92,27 @@ margin: 0 auto;
 padding: 0 20px;
 }
 
-/* Responsive Typography with Fluid Scaling */
-html {
-  font-size: 16px; /* Base font size */
-}
-
-/* Fluid typography using clamp() for automatic scaling */
+/* Typography */
 h1, h2, h3 {
-  font-family: 'Playfair Display', serif;
-  font-weight: 600;
+font-family: 'Playfair Display', serif;
+font-weight: 600;
 }
 
 h1 {
-  font-size: clamp(1.8rem, 4vw, 2.5rem); /* Scales from 1.8rem to 2.5rem */
-  margin-bottom: 1rem;
-  color: var(--accent-secondary);
-  line-height: 1.3;
-  font-weight: 600;
+font-size: var(--font-size-3xl);
+margin-bottom: var(--space-md);
+color: var(--accent-secondary);
+line-height: clamp(1.2, 1.1 + 0.5vw, 1.4);
+font-weight: 600;
 }
 
 h2 {
-  font-size: clamp(2rem, 5vw, 2.8rem); /* Scales from 2rem to 2.8rem */
-  margin-bottom: 2rem;
-  text-align: center;
-  color: var(--accent-secondary);
-  position: relative;
-  font-weight: 700;
+font-size: var(--font-size-4xl);
+margin-bottom: var(--space-lg);
+text-align: center;
+color: var(--accent-secondary);
+position: relative;
+font-weight: 700;
 }
 
 h2::after {
@@ -104,20 +128,9 @@ border-radius: 2px;
 }
 
 h3 {
-  font-size: clamp(1rem, 2.5vw, 1.25rem); /* Responsive h3 */
-  margin-bottom: 0.7rem;
-  color: var(--accent-secondary);
-}
-
-/* Base text scaling */
-p, li, span {
-  font-size: clamp(0.9rem, 2vw, 1rem);
-  line-height: 1.6;
-}
-
-/* Button text scaling */
-button, .btn, .cta-button {
-  font-size: clamp(0.9rem, 2.2vw, 1.15rem);
+font-size: var(--font-size-lg);
+margin-bottom: var(--space-sm);
+color: var(--accent-secondary);
 }
 
 /* Navigation */
@@ -125,7 +138,7 @@ button, .btn, .cta-button {
 background: var(--bg-navbar);
 -webkit-backdrop-filter: blur(10px);
 backdrop-filter: blur(10px);
-padding: 1.2rem 0;
+padding: var(--space-md) 0;
 position: fixed;
 top: 0;
 width: 100%;
@@ -209,7 +222,7 @@ transition: 0.3s;
 
 /* Hero Section */
 .hero {
-padding: 140px 20px 80px;
+padding: var(--space-3xl) var(--space-md) var(--space-2xl);
 display: flex;
 align-items: center;
 min-height: 85vh;
@@ -262,18 +275,18 @@ position: relative;
 z-index: 2;
 }
 
-/* Enhanced hero title with fluid scaling */
+/* Enhanced hero title */
 .hero-content h1 {
-  font-size: clamp(2.2rem, 6vw, 3.2rem); /* Hero scales from 2.2rem to 3.2rem */
-  font-weight: 700;
-  line-height: 1.2;
-  margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-primary) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  animation: slideInLeft 1s ease-out;
+font-size: var(--font-size-4xl);
+font-weight: 700;
+line-height: clamp(1.1, 1.05 + 0.25vw, 1.3);
+margin-bottom: var(--space-lg);
+background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-primary) 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+animation: slideInLeft 1s ease-out;
 }
 
 @keyframes slideInLeft {
@@ -288,22 +301,22 @@ z-index: 2;
 }
 
 .hero-content p {
-  font-size: clamp(1rem, 3vw, 1.25rem); /* Hero paragraph scaling */
-  margin-bottom: 2.5rem;
-  color: var(--text-secondary);
-  line-height: 1.7;
-  font-weight: 400;
-  opacity: 0.9;
-  animation: slideInLeft 1s ease-out 0.3s both;
+font-size: var(--font-size-md);
+margin-bottom: var(--space-xl);
+color: var(--text-secondary);
+line-height: clamp(1.6, 1.5 + 0.5vw, 1.8);
+font-weight: 400;
+opacity: 0.9;
+animation: slideInLeft 1s ease-out 0.3s both;
 }
 
 .cta-button {
 background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
 color: white;
-padding: 18px 40px;
+padding: var(--space-md) var(--space-xl);
 border: none;
 border-radius: 50px;
-font-size: 1.15rem;
+font-size: var(--font-size-base);
 font-weight: 600;
 cursor: pointer;
 transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -370,7 +383,7 @@ font-size: 0.84rem;
 
 /* Classes Section */
 .classes-section {
-padding: 120px 0;
+padding: var(--space-3xl) 0;
 background: var(--bg-card);
 background-image: 
     radial-gradient(circle at 20% 20%, rgba(124, 154, 77, 0.02) 0%, transparent 50%),
@@ -516,7 +529,7 @@ animation: fadeInUp 0.8s ease-out;
 
 /* Policy Section */
 .policy-section {
-padding: 60px 0;
+padding: var(--space-2xl) 0;
 background: var(--bg-secondary);
 background-image: 
     radial-gradient(circle at 15% 25%, rgba(124, 154, 77, 0.03) 0%, transparent 50%),
@@ -599,7 +612,7 @@ color: #d35400;
 
 /* Calendar & Booking Section */
 .calendar-section {
-padding: 80px 0;
+padding: var(--space-2xl) 0;
 background: linear-gradient(145deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
 background-image: 
     radial-gradient(circle at 10% 20%, rgba(124, 154, 77, 0.05) 0%, transparent 50%),
@@ -767,10 +780,10 @@ color: #333;
 .form-group select,
 .form-group textarea {
 width: 100%;
-padding: 12px;
+padding: var(--space-sm);
 border: 2px solid #e0e0e0;
 border-radius: 5px;
-font-size: 1rem;
+font-size: var(--font-size-base);
 transition: border-color 0.3s ease;
 }
 
@@ -785,10 +798,10 @@ border-color: #7a9a4d;
 width: 100%;
 background: #7a9a4d;
 color: white;
-padding: 10px;
+padding: var(--space-sm);
 border: none;
 border-radius: 5px;
-font-size: 0.77rem;
+font-size: var(--font-size-sm);
 font-weight: 600;
 cursor: pointer;
 transition: background 0.3s ease;
@@ -854,10 +867,10 @@ background: #2c5530;
 
 .custom-amount-input input[type="number"] {
     width: 100%;
-    padding: 12px;
+    padding: var(--space-sm);
     border: 2px solid #dee2e6;
     border-radius: 6px;
-    font-size: 1rem;
+    font-size: var(--font-size-base);
     transition: border-color 0.3s ease;
 }
 
@@ -986,7 +999,7 @@ background: #2c5530;
 /* About Section */
 /* About Section - Modern Design */
 .about-section {
-    padding: 80px 0;
+    padding: var(--space-2xl) 0;
     background: linear-gradient(135deg, #f8faf8 0%, #ffffff 100%);
     position: relative;
 }
@@ -1290,7 +1303,7 @@ background: #2c5530;
 
 /* Contact Section */
 .contact-section {
-padding: 56px 0;
+padding: var(--space-2xl) 0;
 background: #2c5530;
 color: white;
 }
@@ -3100,126 +3113,6 @@ scroll-behavior: smooth;
 
 .apple-pay-hidden {
     display: none;
-}
-
-/* ===== COMPREHENSIVE MOBILE RESPONSIVENESS ===== */
-
-/* Mobile-First Font Scaling (320px to 768px) */
-@media screen and (max-width: 767px) {
-    /* Smaller base font size for mobile */
-    html {
-        font-size: 14px; /* Reduces all rem values by 12.5% */
-    }
-    
-    /* Hero title gets more aggressive scaling on mobile */
-    .hero-content h1 {
-        font-size: clamp(1.8rem, 8vw, 2.5rem) !important;
-        line-height: 1.1;
-        text-align: center;
-    }
-    
-    /* Section headings scale better */
-    h2 {
-        font-size: clamp(1.6rem, 7vw, 2.2rem) !important;
-        margin-bottom: 1.5rem;
-    }
-    
-    h3 {
-        font-size: clamp(1.1rem, 4vw, 1.3rem) !important;
-    }
-    
-    /* Body text optimized for mobile reading */
-    p, li, span {
-        font-size: clamp(0.95rem, 3.5vw, 1.05rem) !important;
-        line-height: 1.7;
-    }
-    
-    /* Button text */
-    button, .btn, .cta-button {
-        font-size: clamp(0.9rem, 4vw, 1.1rem) !important;
-        padding: 14px 28px;
-    }
-    
-    /* Navigation adjustments */
-    .nav-menu a {
-        font-size: clamp(0.9rem, 3.5vw, 1rem);
-        padding: 0.5rem 0;
-    }
-    
-    /* Form elements */
-    input, textarea, select {
-        font-size: 16px !important; /* Prevents iOS zoom on focus */
-    }
-    
-    /* Card content */
-    .class-card h3 {
-        font-size: clamp(1rem, 4.5vw, 1.2rem) !important;
-    }
-    
-    .class-card p {
-        font-size: clamp(0.85rem, 3.2vw, 0.95rem) !important;
-    }
-}
-
-/* Large Mobile/Small Tablet (768px to 991px) */
-@media screen and (min-width: 768px) and (max-width: 991px) {
-    html {
-        font-size: 15px; /* Intermediate scaling */
-    }
-    
-    .hero-content h1 {
-        font-size: clamp(2.5rem, 6vw, 3rem) !important;
-    }
-    
-    h2 {
-        font-size: clamp(2.2rem, 5vw, 2.6rem) !important;
-    }
-}
-
-/* Desktop Fine-tuning (992px+) */
-@media screen and (min-width: 992px) {
-    html {
-        font-size: 16px; /* Standard desktop size */
-    }
-    
-    /* Ensure max sizes are respected on very large screens */
-    .hero-content h1 {
-        font-size: clamp(2.8rem, 4vw, 3.5rem) !important;
-        max-width: 100%;
-    }
-}
-
-/* Ultra-wide screens (1400px+) - prevent excessive scaling */
-@media screen and (min-width: 1400px) {
-    /* Cap the vw scaling to prevent huge fonts */
-    .hero-content h1 {
-        font-size: 3.2rem !important;
-    }
-    
-    h2 {
-        font-size: 2.8rem !important;
-    }
-    
-    p, li, span {
-        font-size: 1rem !important;
-    }
-}
-
-/* Accessibility: Respect user's font size preferences */
-@media screen and (prefers-reduced-motion: no-preference) {
-    html {
-        scroll-behavior: smooth;
-    }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-    :root {
-        --text-primary: #000000;
-        --text-secondary: #333333;
-        --accent-primary: #006600;
-        --accent-secondary: #003300;
-    }
 }
 
 /* Responsive Design for Payment Methods */

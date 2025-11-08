@@ -1,7 +1,33 @@
-/* User Dashboard Specific Styles */
+/* User Dashboard Specific Styles - Fluid Typography */
+
+/* Import fluid typography variables */
+:root {
+/* Fluid Typography Variables */
+--font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+--font-size-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
+--font-size-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+--font-size-md: clamp(1.125rem, 1rem + 0.625vw, 1.25rem);
+--font-size-lg: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+--font-size-xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+--font-size-2xl: clamp(1.875rem, 1.6rem + 1.375vw, 2.5rem);
+
+/* Responsive Spacing */
+--space-xs: clamp(0.5rem, 0.4rem + 0.5vw, 0.75rem);
+--space-sm: clamp(0.75rem, 0.6rem + 0.75vw, 1rem);
+--space-md: clamp(1rem, 0.8rem + 1vw, 1.5rem);
+--space-lg: clamp(1.5rem, 1.2rem + 1.5vw, 2.5rem);
+--space-xl: clamp(2rem, 1.6rem + 2vw, 3.5rem);
+}
+
+/* Responsive Base Styles */
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
 
 .dashboard-main {
-    padding-top: 170px;
+    padding-top: var(--space-3xl);
 }
 
 .welcome-section {
@@ -13,12 +39,12 @@
 
 .welcome-section h1 {
     color: white;
-    font-size: 2.2rem;
-    margin-bottom: 15px;
+    font-size: var(--font-size-2xl);
+    margin-bottom: var(--space-md);
 }
 
 .welcome-subtitle {
-    font-size: 1.1rem;
+    font-size: var(--font-size-md);
     opacity: 0.9;
     margin: 0;
 }
@@ -58,21 +84,21 @@
 
 .stat-card h3 {
     color: #666;
-    font-size: 0.9rem;
-    margin-bottom: 10px;
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--space-xs);
     font-weight: 500;
 }
 
 .stat-number {
-    font-size: 2.2rem;
+    font-size: var(--font-size-xl);
     font-weight: 700;
     color: #2c5530;
-    margin-bottom: 10px;
+    margin-bottom: var(--space-xs);
 }
 
 .stat-card p {
     color: #888;
-    font-size: 0.8rem;
+    font-size: var(--font-size-xs);
     margin: 0;
 }
 
@@ -101,7 +127,7 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    font-size: 1rem;
+    font-size: var(--font-size-base);
     font-weight: 600;
 }
 
@@ -158,7 +184,7 @@
 }
 
 .booking-class {
-    font-size: 1.1rem;
+    font-size: var(--font-size-md);
     font-weight: 600;
     color: #2c5530;
 }
@@ -166,7 +192,7 @@
 .booking-status {
     padding: 5px 12px;
     border-radius: 20px;
-    font-size: 0.8rem;
+    font-size: var(--font-size-sm);
     font-weight: 600;
     text-transform: uppercase;
 }
@@ -194,7 +220,7 @@
 }
 
 .booking-detail {
-    font-size: 0.9rem;
+    font-size: var(--font-size-sm);
     color: #666;
 }
 
@@ -212,7 +238,7 @@
     padding: 8px 16px;
     border: none;
     border-radius: 6px;
-    font-size: 0.8rem;
+    font-size: var(--font-size-xs);
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -301,14 +327,14 @@
 .user-conversations-header h3 {
     margin: 0 0 15px 0;
     color: white;
-    font-size: 1.1rem;
+    font-size: var(--font-size-md);
 }
 
 .user-conversation-status {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 0.9rem;
+    font-size: var(--font-size-sm);
     opacity: 0.9;
 }
 
@@ -362,12 +388,12 @@
 
 .user-conversation-name {
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: var(--font-size-sm);
     margin-bottom: 4px;
 }
 
 .user-conversation-preview {
-    font-size: 0.8rem;
+    font-size: var(--font-size-xs);
     color: #666;
     white-space: nowrap;
     overflow: hidden;
@@ -416,13 +442,13 @@
 .chat-user-details h3 {
     margin: 0;
     color: #2c5530;
-    font-size: 1.1rem;
+    font-size: var(--font-size-md);
 }
 
 .online-status {
     margin: 0;
     color: #28a745;
-    font-size: 0.9rem;
+    font-size: var(--font-size-sm);
     font-weight: 600;
 }
 
@@ -501,29 +527,29 @@
 
 .message-sender {
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: var(--font-size-sm);
 }
 
 .message-time {
-    font-size: 0.8rem;
+    font-size: var(--font-size-xs);
     opacity: 0.7;
 }
 
 .message-text {
-    font-size: 0.95rem;
+    font-size: var(--font-size-sm);
     line-height: 1.4;
     word-wrap: break-word;
 }
 
 .message-type {
-    font-size: 0.8rem;
+    font-size: var(--font-size-xs);
     opacity: 0.8;
     margin-top: 5px;
     font-style: italic;
 }
 
 .message-status {
-    font-size: 0.7rem;
+    font-size: var(--font-size-xs);
     opacity: 0.7;
     margin-top: 5px;
     text-align: right;
@@ -543,7 +569,7 @@
     text-align: center;
     margin: 20px 0;
     color: #666;
-    font-size: 0.8rem;
+    font-size: var(--font-size-sm);
     background: #fafafa;
     padding: 8px 15px;
     border-radius: 15px;
@@ -570,10 +596,10 @@
     flex: 1;
     border: 2px solid #e0e0e0;
     border-radius: 8px;
-    padding: 12px;
+    padding: var(--space-sm);
     resize: none;
     font-family: inherit;
-    font-size: 0.95rem;
+    font-size: var(--font-size-base);
     transition: border-color 0.3s ease;
     max-height: 100px;
 }
@@ -595,6 +621,7 @@
     align-items: center;
     gap: 8px;
     font-weight: 600;
+    font-size: var(--font-size-sm);
 }
 
 #sendMessageBtn:hover {
@@ -636,6 +663,7 @@
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
+    font-size: var(--font-size-sm);
     color: #333;
 }
 
@@ -643,10 +671,10 @@
 .form-group select,
 .form-group textarea {
     width: 100%;
-    padding: 12px;
+    padding: var(--space-sm);
     border: 2px solid #e0e0e0;
     border-radius: 8px;
-    font-size: 1rem;
+    font-size: var(--font-size-base);
     transition: border-color 0.3s ease;
 }
 
