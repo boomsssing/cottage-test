@@ -862,7 +862,8 @@ function initializeCalendar(categoryFilter = 'all') {
         });
 
         const bookedSeats = matchingBookings.reduce((sum, booking) => sum + (booking.seats || 0), 0);
-        classItem.seats = Math.max(0, classItem.seats - bookedSeats);
+        const maxSeats = classItem.maxSeats || 8; // Use actual maxSeats or fallback to 8
+        classItem.seats = Math.max(0, maxSeats - bookedSeats);
 
         console.log(`🔄 REAL-TIME: "${classItem.class}" on ${classItem.date}: ${classItem.seats} available (${bookedSeats} booked from ${matchingBookings.length} bookings)`);
     });
@@ -871,8 +872,8 @@ function initializeCalendar(categoryFilter = 'all') {
 
     // Filter only future classes and sort by date
     let futureClasses = availableDates
-        .filter(item => new Date(item.date) >= today)
-        .sort((a, b) => new Date(a.date) - new Date(b.date)); // Show ALL classes
+        .filter(item => parseLocalDate(item.date) >= today)
+        .sort((a, b) => parseLocalDate(a.date) - parseLocalDate(b.date)); // Show ALL classes
 
     // Apply category filter if not 'all'
     if (categoryFilter !== 'all') {
@@ -919,7 +920,7 @@ function initializeCalendar(categoryFilter = 'all') {
         `;
     } else {
         futureClasses.forEach((item, index) => {
-            const date = new Date(item.date);
+            const date = parseLocalDate(item.date);
             const isToday = date.toDateString() === today.toDateString();
             const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
             const monthDay = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
@@ -981,7 +982,7 @@ function filterCalendarByCategory() {
 
 // Show class details popup
 function showClassDetails(className, date, time, description, seatsAvailable) {
-    const formattedDate = new Date(date).toLocaleDateString('en-US', { 
+    const formattedDate = parseLocalDate(date).toLocaleDateString('en-US', { 
         weekday: 'long', 
         year: 'numeric', 
         month: 'long', 
@@ -1180,7 +1181,7 @@ function showSignInPrompt(className, date) {
         animation: fadeIn 0.3s ease;
     `;
 
-    const formattedDate = new Date(date).toLocaleDateString('en-US', { 
+    const formattedDate = parseLocalDate(date).toLocaleDateString('en-US', { 
         weekday: 'long', 
         year: 'numeric', 
         month: 'long', 
@@ -1299,7 +1300,7 @@ function showPaymentOptions(className, date, currentUser) {
         animation: fadeIn 0.3s ease;
     `;
 
-    const formattedDate = new Date(date).toLocaleDateString('en-US', { 
+    const formattedDate = parseLocalDate(date).toLocaleDateString('en-US', { 
         weekday: 'long', 
         year: 'numeric', 
         month: 'long', 
@@ -1546,6 +1547,13 @@ function quickBook(className, date) {
     }
 }
 
+// TIMEZONE-SAFE DATE PARSER - prevents dates from shifting by one day
+function parseLocalDate(dateString) {
+    // Parse YYYY-MM-DD as local date, not UTC
+    const [year, month, day] = dateString.split('-').map(Number);
+    return new Date(year, month - 1, day);
+}
+
 // REAL-TIME localStorage functions for calendar management
 function getClassesFromStorage() {
     // First check if admin has already created the customer classes
@@ -1567,6 +1575,7 @@ function getClassesFromStorage() {
                 date: cls.date,
                 class: cls.name,
                 seats: cls.maxSeats - cls.bookedSeats,
+                maxSeats: cls.maxSeats,
                 time: cls.time,
                 description: cls.description
             }));
@@ -1585,6 +1594,7 @@ function getClassesFromStorage() {
         date: cls.date,
         class: cls.name,
         seats: cls.maxSeats - cls.bookedSeats,
+        maxSeats: cls.maxSeats,
         time: cls.time,
         description: cls.description
     }));
@@ -1606,9 +1616,10 @@ function getClassesFromStorage() {
             return dateMatches && classMatches && booking.status !== 'cancelled';
         });
         
-        // Calculate available seats (max 8 - booked seats)
+        // Calculate available seats (maxSeats - booked seats)
         const totalBookedSeats = classBookings.reduce((sum, booking) => sum + (booking.seats || 0), 0);
-        customerClass.seats = Math.max(0, 8 - totalBookedSeats);
+        const maxSeats = customerClass.maxSeats || 8; // Fallback to 8 if maxSeats not set
+        customerClass.seats = Math.max(0, maxSeats - totalBookedSeats);
         
         console.log(`🔄 Class "${customerClass.class}" on ${customerClass.date}: ${customerClass.seats} available seats (${totalBookedSeats} booked from ${classBookings.length} bookings)`);
     });
@@ -2117,14 +2128,14 @@ function handlePaymentSuccess(paymentData) {
                 users.push(newUser);
                 localStorage.setItem('users', JSON.stringify(users));
                 
-                const successMessage = `✅ BOOKING CONFIRMED!\n\nThank you, ${bookingData.name}!\n${bookingData.seats} seat(s) booked for ${getFullClassName(bookingData.className)}\nDate: ${new Date(bookingData.classDate).toLocaleDateString()}\n\nWe've also created an account for you!\nEmail: ${bookingData.email}\nTemp Password: ${tempPassword}\n\n⚡ Calendar updated in real-time!`;
+                const successMessage = `✅ BOOKING CONFIRMED!\n\nThank you, ${bookingData.name}!\n${bookingData.seats} seat(s) booked for ${getFullClassName(bookingData.className)}\nDate: ${parseLocalDate(bookingData.classDate).toLocaleDateString()}\n\nWe've also created an account for you!\nEmail: ${bookingData.email}\nTemp Password: ${tempPassword}\n\n⚡ Calendar updated in real-time!`;
                 alert(successMessage);
             } else {
-                const successMessage = `✅ BOOKING CONFIRMED!\n\nThank you, ${bookingData.name}!\n${bookingData.seats} seat(s) booked for ${getFullClassName(bookingData.className)}\nDate: ${new Date(bookingData.classDate).toLocaleDateString()}\n\nConfirmation sent to: ${bookingData.email}\n\n⚡ Calendar updated in real-time!`;
+                const successMessage = `✅ BOOKING CONFIRMED!\n\nThank you, ${bookingData.name}!\n${bookingData.seats} seat(s) booked for ${getFullClassName(bookingData.className)}\nDate: ${parseLocalDate(bookingData.classDate).toLocaleDateString()}\n\nConfirmation sent to: ${bookingData.email}\n\n⚡ Calendar updated in real-time!`;
                 alert(successMessage);
             }
         } else {
-            const successMessage = `✅ BOOKING CONFIRMED!\n\nThank you, ${bookingData.name}!\n${bookingData.seats} seat(s) booked for ${getFullClassName(bookingData.className)}\nDate: ${new Date(bookingData.classDate).toLocaleDateString()}\n\nView in your dashboard!\n\n⚡ Calendar updated in real-time!`;
+            const successMessage = `✅ BOOKING CONFIRMED!\n\nThank you, ${bookingData.name}!\n${bookingData.seats} seat(s) booked for ${getFullClassName(bookingData.className)}\nDate: ${parseLocalDate(bookingData.classDate).toLocaleDateString()}\n\nView in your dashboard!\n\n⚡ Calendar updated in real-time!`;
             alert(successMessage);
             
             // Offer to go to dashboard
@@ -2460,7 +2471,7 @@ function updateAdminBookingsTable(bookings = null) {
     }
     
     tableBody.innerHTML = bookings.slice(-10).reverse().map(booking => {
-        const date = new Date(booking.date).toLocaleDateString();
+        const date = parseLocalDate(booking.date).toLocaleDateString();
         const className = getFullClassNameFromType(booking.className);
         return `
             <tr>
